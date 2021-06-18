@@ -13,6 +13,14 @@
           <strong>
             {{ certification.price }} {{ certification.currency }}
           </strong>
+          <router-link
+            :to="'/edit-certificate-form/'+certification.id"
+            tag="span"
+            class="pointerClass"
+          >
+            <span>Edit</span>
+            <v-icon>mdi-file-document-edit</v-icon>
+          </router-link>
         </v-card-text>
       </div>
     </v-card>
