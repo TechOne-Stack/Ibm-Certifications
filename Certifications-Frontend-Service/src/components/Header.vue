@@ -5,6 +5,11 @@
     </router-link>
     <v-spacer />
 
+    <router-link to="/voucher" tag="span" class="pointerClass">
+      <h2>IBM@Vouchers</h2>
+    </router-link>
+    <v-spacer />
+
     <router-link to="/profile" tag="span" class="pointerClass">
       <span>Profile</span>
       <v-icon>mdi-account</v-icon>
