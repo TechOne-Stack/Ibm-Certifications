@@ -47,8 +47,15 @@
               </v-card-text>
               <v-card-actions>
                 <v-spacer />
-                <v-btn color="danger">Close</v-btn>
-                <v-btn :disabled="!valid" color="success">Send</v-btn>
+                <router-link to="/" tag="span" class="pointerClass">
+                  <v-btn color="danger">Close</v-btn>
+                </router-link>
+                <v-btn
+                  :disabled="!valid"
+                  @click="sendUpdatedCertification"
+                  color="success"
+                  >Send</v-btn
+                >
               </v-card-actions>
             </v-card>
           </v-col>
@@ -65,6 +72,7 @@ export default {
   name: "EditCertification",
   data() {
     return {
+      valid: true,
       currentCertification: {},
       certificationName: "",
       certificationPrice: 0,
@@ -83,6 +91,17 @@ export default {
     this.certificationPrice = this.currentCertification.price;
     this.certificationCurrency = this.currentCertification.currency;
     this.certificationUrl = this.currentCertification.url;
+  },
+  methods: {
+    sendUpdatedCertification() {
+      this.$store.dispatch("updateCertificationRequest", {
+        id: this.currentCertification.id,
+        name: this.certificationName,
+        currency: this.certificationCurrency,
+        price: this.certificationPrice,
+        url: this.certificationUrl
+      });
+    }
   },
   computed: {
     ...mapGetters(["certifications"])

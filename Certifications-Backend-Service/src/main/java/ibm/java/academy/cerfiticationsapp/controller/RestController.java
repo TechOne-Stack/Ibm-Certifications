@@ -24,9 +24,6 @@ public class RestController {
     @Autowired 
     UserJpaRepository userJpaRepository;
     
-    @Autowired
-    CertificationJpaRepository certificationJpaRepository;
-
     @GetMapping("/all-users")
     @ResponseBody
     public List<User> users() {
@@ -45,15 +42,7 @@ public class RestController {
         userJpaRepository.deleteAllById(Arrays.asList(id));
     }
 
-    @PostMapping(path = "/update-certificate", consumes = "application/json", produces = "application/json")
-    @ResponseBody
-    public Certification updateCertificate(@RequestBody Certification newCertification) {
-        Optional<Certification> certOpt = certificationJpaRepository.findById(newCertification.getId());
-        Certification oldCertification = certOpt.get();
-        oldCertification.setName(newCertification.getName());
-        certificationJpaRepository.save(oldCertification);
-        return newCertification;
-    }
+    
 
     
 }

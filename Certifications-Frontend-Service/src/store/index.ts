@@ -68,6 +68,23 @@ export default new Vuex.Store({
       } catch (err) {
         console.log(err);
       }
+    },
+    async updateCertificationRequest(
+      { commit, rootState },
+      certificationRequest
+    ) {
+      const url = "http://localhost:8080/update-certificate";
+      const headers = {
+        "Content-Type": "application/json",
+        Autorization: localStorage.getItem("token")
+      };
+      try {
+        const { data } = await axios.post(url, certificationRequest, {
+          headers
+        });
+      } catch (err) {
+        console.log(err);
+      }
     }
   },
   modules: {}
