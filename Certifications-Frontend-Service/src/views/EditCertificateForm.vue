@@ -115,8 +115,10 @@ export default {
         this.currentCertification.id +
         "/skills"
     );
-    console.log(temp);
-    console.log(data);
+    temp.data._embedded.skills.forEach( skill => {
+      console.log(temp);
+      this.certificationSkillList.push(skill.id);
+    });
     this.skillsMutation(data._embedded.skills);
   },
   methods: {

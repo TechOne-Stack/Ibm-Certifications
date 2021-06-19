@@ -44,6 +44,8 @@ public class CertificationController {
         oldCertification.setCurrency(newCertification.getCurrency());
         oldCertification.setPrice(newCertification.getPrice()  != null ? newCertification.getPrice() : new BigDecimal(0.0));
 
+        
+
         List<Skill> skillList = new ArrayList<Skill>();
         for(Long index : skills){
             Optional<Skill> newSkill  = skillJpaRepository.findById(index);
