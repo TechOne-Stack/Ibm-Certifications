@@ -43,6 +43,19 @@
                       ></v-text-field>
                     </v-col>
                   </v-row>
+                  <v-row>
+                    <v-col cols="12">
+                      <ul id="editCertSkillList">
+                        <li v-for="skillItem in skills" :key="skillItem.id">
+                          <v-checkbox
+                            v-model="certificationSkillList"
+                            :label="skillItem.name"
+                            :value="skillItem.id"
+                          ></v-checkbox>
+                        </li>
+                      </ul>
+                    </v-col>
+                  </v-row>
                 </v-form>
               </v-card-text>
               <v-card-actions>
@@ -66,7 +79,8 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
+import axios from "axios";
 
 export default {
   name: "EditCertification",
@@ -78,6 +92,7 @@ export default {
       certificationPrice: 0,
       certificationCurrency: "",
       certificationUrl: "",
+      certificationSkillList: [],
       nameRules: [v => !!v || "Name is required!"],
       currencyRules: [v => !!v || "Currency is required!"],
       urlRules: [v => !!v || "Url is required!"]
@@ -92,19 +107,36 @@ export default {
     this.certificationCurrency = this.currentCertification.currency;
     this.certificationUrl = this.currentCertification.url;
   },
+  async mounted() {
+    const { data } = await axios.get("http://localhost:8080/skills");
+    let temp = [];
+    temp = await axios.get(
+      "http://localhost:8080/certifications/" +
+        this.currentCertification.id +
+        "/skills"
+    );
+    console.log(temp);
+    console.log(data);
+    this.skillsMutation(data._embedded.skills);
+  },
   methods: {
     sendUpdatedCertification() {
       this.$store.dispatch("updateCertificationRequest", {
-        id: this.currentCertification.id,
-        name: this.certificationName,
-        currency: this.certificationCurrency,
-        price: this.certificationPrice,
-        url: this.certificationUrl
+        certification: {
+          id: this.currentCertification.id,
+          name: this.certificationName,
+          currency: this.certificationCurrency,
+          price: this.certificationPrice,
+          url: this.certificationUrl
+        },
+        skills: this.certificationSkillList
       });
-    }
+    },
+    ...mapMutations(["skillsMutation"])
   },
   computed: {
-    ...mapGetters(["certifications"])
+    ...mapGetters(["certifications"]),
+    ...mapGetters(["skills"])
   }
 };
 </script>

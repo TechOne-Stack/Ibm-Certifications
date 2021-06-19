@@ -13,9 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import ibm.java.academy.cerfiticationsapp.model.Certification;
 import ibm.java.academy.cerfiticationsapp.model.User;
-import ibm.java.academy.cerfiticationsapp.repository.CertificationJpaRepository;
 import ibm.java.academy.cerfiticationsapp.repository.UserJpaRepository;
 
 @Controller

@@ -10,7 +10,8 @@ export default new Vuex.Store({
     email: "",
     password: "",
     loggedIn: false,
-    certifications: []
+    certifications: [],
+    skills: []
   },
   mutations: {
     emailMutation(state, value) {
@@ -29,6 +30,9 @@ export default new Vuex.Store({
     },
     certificationsMutation(state, value) {
       state.certifications = value;
+    },
+    skillsMutation(state, value) {
+      state.skills = value;
     }
   },
   getters: {
@@ -43,6 +47,9 @@ export default new Vuex.Store({
     },
     certifications(state: any){
       return state.certifications;
+    },
+    skills(state: any){
+      return state.skills;
     }
   },
   actions: {

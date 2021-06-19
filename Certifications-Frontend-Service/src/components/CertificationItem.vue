@@ -4,7 +4,7 @@
       <v-img
         class="white--text align-end"
         height="120px"
-        src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+        :src="'' + imageLink"
       >
         <v-card-title>{{ certification.name }}</v-card-title>
       </v-img>
@@ -31,10 +31,25 @@
 
 <script>
 export default {
+  data() {
+    return {
+      imageLink: ""
+    };
+  },
   props: {
     certification: {
       type: Object,
       require: true
+    }
+  },
+  created() {
+    switch (this.certification.name.toLocaleLowerCase()) {
+      case "java":
+        this.imageLink = "JAVA";
+        break;
+      default:
+        this.imageLink = "assets/";
+        break;
     }
   }
 };
