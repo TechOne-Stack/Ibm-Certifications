@@ -13,6 +13,7 @@ export default new Vuex.Store({
     certifications: [],
     vouchers: [],
     voucherDetailData: [],
+    voucherDetailUserData: [],
   },
   mutations: {
     emailMutation(state, value) {
@@ -37,6 +38,9 @@ export default new Vuex.Store({
     },
     voucherDetailMutation(state, value) {
       state.voucherDetailData = value;
+    },
+    voucherDetailUserMutation(state, value) {
+      state.voucherDetailUserData = value;
     }
   },
   getters: {
@@ -46,17 +50,20 @@ export default new Vuex.Store({
     password(state: any) {
       return state.password;
     },
-    loggedIn(state: any){
+    loggedIn(state: any) {
       return state.loggedIn;
     },
-    certifications(state: any){
+    certifications(state: any) {
       return state.certifications;
     },
-    vouchers(state: any){
+    vouchers(state: any) {
       return state.vouchers;
     },
-    voucherDetailData(state: any){
+    voucherDetailData(state: any) {
       return state.voucherDetailData;
+    },
+    voucherDetailUserData(state: any) {
+      return state.voucherDetailUserData;
     }
   },
   actions: {
@@ -83,10 +90,7 @@ export default new Vuex.Store({
         console.log(err);
       }
     },
-    async createVoucherRequest(
-      { commit, rootState },
-      voucherRequest
-    ) {
+    async createVoucherRequest({ commit, rootState }, voucherRequest) {
       const url = "http://localhost:8080/vouchers/";
       const headers = {
         "Content-Type": "application/json",

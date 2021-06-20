@@ -34,22 +34,22 @@ import axios from "axios";
 export default Vue.extend({
   name: "Voucher",
   components: {
-    VoucherItem,
+    VoucherItem
   },
   computed: {
-    ...mapGetters(["vouchers"]),
+    ...mapGetters(["vouchers"])
   },
   async mounted() {
     if (this.loggedIn == false) {
       this.$router.push("/login");
     }
     const { data } = await axios.get("http://localhost:8080/vouchers");
-    console.log(data._embedded.vouchers)
+    console.log(data._embedded.vouchers);
     this.vouchersMutation(data._embedded.vouchers);
   },
   methods: {
-    ...mapMutations(["vouchersMutation"]),
-  },
+    ...mapMutations(["vouchersMutation"])
+  }
 });
 </script>
 
