@@ -6,6 +6,54 @@
       </v-col>
     </v-row>
     <v-divider />
+    <!-- <v-row>
+      <v-layout align-center justify-center>
+        <v-flex md4 sm8 xs12 style="padding-top: 2em">
+          <flashmessage></flashmessage>
+        </v-flex>
+      </v-layout>
+    </v-row> -->
+    <v-row>
+      <v-layout align-center justify-center>
+        <v-flex md4 sm8 xs12 style="padding-top: 2em">
+          <v-card class="elevation-12">
+            <v-card-text>
+              <p>Your credentials</p>
+              <v-form ref="updateForm" v-model="validForm">
+                <v-text-field
+                  prepend-icon="mdi-account"
+                  label="Enter your first name"
+                  type="text"
+                  v-model="userFirstName"
+                ></v-text-field>
+                <v-text-field
+                  prepend-icon="mdi-account"
+                  label="Enter your surname"
+                  type="text"
+                  v-model="userSurName"
+                ></v-text-field>
+                <v-text-field
+                  prepend-icon="mdi-account"
+                  label="Enter your email"
+                  type="text"
+                  :counter="50"
+                  v-model="userEmail"
+                ></v-text-field>
+              </v-form>
+            </v-card-text>
+            <v-card-actions>
+              <v-btn
+                :disabled="!validForm"
+                @click="sendUpdateRequest"
+                class="success"
+              >
+                Update your profile</v-btn
+              >
+            </v-card-actions>
+          </v-card>
+        </v-flex>
+      </v-layout>
+    </v-row>
     <v-row>
       <v-col cols="12" style="padding-top: 1em">
         <v-btn @click.stop="newCertificationDialog = true" color="primary"
@@ -73,10 +121,14 @@
 </template>
 
 <script>
+import axios from "axios";
+import flashmessage from "@/components/FlashMessage.vue";
+
 export default {
   data() {
     return {
       valid: true,
+      validForm: true,
       newCertificationDialog: false,
       certificationName: "",
       certificationPrice: 0,
@@ -84,9 +136,17 @@ export default {
       certificationUrl: "",
       nameRules: [v => !!v || "Name is required!"],
       currencyRules: [v => !!v || "Currency is required!"],
-      urlRules: [v => !!v || "Url is required!"]
+      urlRules: [v => !!v || "Url is required!"],
+      userFirstName: "",
+      userSurName: "",
+      userEmail: "",
+      password: "",
+      notifications: this.$store.getters.notifications
     };
   },
+  // components: {
+  //   flashmessage
+  // },
   methods: {
     closeNewCertificationDialog() {
       this.newCertificationDialog = false;
@@ -103,7 +163,29 @@ export default {
         url: this.certificationUrl
       });
       this.closeNewCertificationDialog();
+    },
+    sendUpdateRequest() {
+      this.$store.dispatch("sendUpdateRequest", {
+        email: this.userEmail,
+        name: this.userFirstName,
+        password: this.password,
+        surname: this.userSurName
+      });
     }
+  },
+  async created() {
+    let userId = null;
+    if (this.$store.getters.userId == null) {
+      userId = localStorage.getItem("userID");
+    } else {
+      userId = this.$store.getters.userId;
+    }
+    const url = "http://localhost:8080/users/" + userId;
+    const { data } = await axios.get(url);
+    this.userFirstName = data.name;
+    this.userSurName = data.surname;
+    this.userEmail = data.email;
+    this.password = data.password;
   }
 };
 </script>

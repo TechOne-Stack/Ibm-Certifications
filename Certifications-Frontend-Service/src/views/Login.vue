@@ -31,6 +31,20 @@
               Login</v-btn
             >
           </v-card-actions>
+          <div>
+            <v-row>
+              <v-col cols="12" style="padding-top: 1em">
+                <h2>Don't have an account?</h2>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="12" style="padding-top: 0.5em">
+                <v-btn @click="registerToApp">
+                  Sign up
+                </v-btn>
+              </v-col>
+            </v-row>
+          </div>
         </v-card>
       </v-flex>
     </v-layout>
@@ -70,7 +84,10 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["loginToApp"])
+    ...mapActions(["loginToApp"]),
+    registerToApp() {
+      this.$router.push("/register");
+    }
   }
 };
 </script>

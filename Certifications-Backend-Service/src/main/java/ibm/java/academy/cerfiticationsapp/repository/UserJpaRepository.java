@@ -8,4 +8,5 @@ import ibm.java.academy.cerfiticationsapp.model.User;
 
 public interface UserJpaRepository extends JpaRepository<User, Long>{
     List<User> findAllByNameOrderBySurname(String name);
+    User findByEmail(String email);
 }
