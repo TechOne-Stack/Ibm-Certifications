@@ -4,7 +4,7 @@
       <v-img
         class="white--text align-end"
         height="120px"
-        :src="'' + imageLink"
+        :src="'https://picsum.photos/id/' + this.imageLink + '/400/400'"
       >
         <v-card-title>{{ certification.name }}</v-card-title>
       </v-img>
@@ -43,13 +43,12 @@ export default {
     }
   },
   created() {
-    switch (this.certification.name.toLocaleLowerCase()) {
-      case "java":
-        this.imageLink = "JAVA";
-        break;
-      default:
-        this.imageLink = "assets/";
-        break;
+    if (this.certification.name.toLocaleLowerCase().includes("javascript")) {
+      this.imageLink = "119";
+    } else if (this.certification.name.toLocaleLowerCase().includes("java")) {
+      this.imageLink = "1060";
+    } else {
+      this.imageLink = "20";
     }
   }
 };
