@@ -11,7 +11,8 @@ export default new Vuex.Store({
     password: "",
     loggedIn: false,
     certifications: [],
-    vouchers: []
+    vouchers: [],
+    voucherDetailData: [],
   },
   mutations: {
     emailMutation(state, value) {
@@ -33,6 +34,9 @@ export default new Vuex.Store({
     },
     vouchersMutation(state, value) {
       state.vouchers = value;
+    },
+    voucherDetailMutation(state, value) {
+      state.voucherDetailData = value;
     }
   },
   getters: {
@@ -50,6 +54,9 @@ export default new Vuex.Store({
     },
     vouchers(state: any){
       return state.vouchers;
+    },
+    voucherDetailData(state: any){
+      return state.voucherDetailData;
     }
   },
   actions: {

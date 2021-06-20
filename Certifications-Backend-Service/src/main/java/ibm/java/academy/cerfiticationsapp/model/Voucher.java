@@ -57,5 +57,7 @@ public class Voucher {
                 + ", validUntil=" + validUntil + ", voucherCode=" + voucherCode + "]";
     }
 
+
+
 }
 

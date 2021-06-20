@@ -32,7 +32,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style src="./assets/tailwind.css" lang="scss">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
