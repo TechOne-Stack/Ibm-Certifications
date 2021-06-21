@@ -10,7 +10,10 @@ export default new Vuex.Store({
     email: "",
     password: "",
     loggedIn: false,
-    certifications: []
+    certifications: [],
+    vouchers: [],
+    voucherDetailData: [],
+    voucherDetailUserData: [],
   },
   mutations: {
     emailMutation(state, value) {
@@ -29,6 +32,15 @@ export default new Vuex.Store({
     },
     certificationsMutation(state, value) {
       state.certifications = value;
+    },
+    vouchersMutation(state, value) {
+      state.vouchers = value;
+    },
+    voucherDetailMutation(state, value) {
+      state.voucherDetailData = value;
+    },
+    voucherDetailUserMutation(state, value) {
+      state.voucherDetailUserData = value;
     }
   },
   getters: {
@@ -38,11 +50,20 @@ export default new Vuex.Store({
     password(state: any) {
       return state.password;
     },
-    loggedIn(state: any){
+    loggedIn(state: any) {
       return state.loggedIn;
     },
-    certifications(state: any){
+    certifications(state: any) {
       return state.certifications;
+    },
+    vouchers(state: any) {
+      return state.vouchers;
+    },
+    voucherDetailData(state: any) {
+      return state.voucherDetailData;
+    },
+    voucherDetailUserData(state: any) {
+      return state.voucherDetailUserData;
     }
   },
   actions: {
@@ -63,6 +84,20 @@ export default new Vuex.Store({
       };
       try {
         const { data } = await axios.post(url, certificationRequest, {
+          headers
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    async createVoucherRequest({ commit, rootState }, voucherRequest) {
+      const url = "http://localhost:8080/vouchers/";
+      const headers = {
+        "Content-Type": "application/json",
+        Autorization: localStorage.getItem("token")
+      };
+      try {
+        const { data } = await axios.post(url, voucherRequest, {
           headers
         });
       } catch (err) {
