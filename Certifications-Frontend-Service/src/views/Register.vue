@@ -74,6 +74,7 @@ export default {
       firstNameRules: [value => !!value || "First name is required!"],
       surname: "",
       surnameRules: [value => !!value || "Surname is required!"],
+      email: "",
       emailRules: [
         value => !!value || "Email is required!",
         value => /.+@.+/.test(value) || "Email must be valid"
@@ -93,10 +94,10 @@ export default {
   methods: {
     sendNewRegisterRequest() {
       this.$store.dispatch("sendNewRegisterRequest", {
+        firstname: this.firstname,
+        surname: this.surname,
         email: this.email,
-        name: this.firstname,
-        password: this.password,
-        surname: this.surname
+        password: this.password
       });
     }
   }

@@ -8,11 +8,19 @@ insert into certification(id,name,url, price, version) values (10005,'Oracle 12c
 
 insert into certification(id,name,url, price, version) values (h2seq.nextval,'Spring','https://spring.io', 100.50,0);
 
---user
-insert into user(id,name,surname,email) values (10011,'Elon','Musk','emusk@tesla.com');
-insert into user(id,name,surname,email) values (10012,'Tom','Paul','tpaul@tesla.com');
-insert into user(id,name,surname,email) values (10013,'Tom','Black','tblack@tesla.com');
-insert into user(id,name,surname,email) values (10014,'Zac','Klop','zklop@tesla.com');
+--user_roles
+-- INSERT INTO user_roles(user_id, role_id) VALUES(1, 1);
+-- INSERT INTO user_roles(user_id, role_id) VALUES(1, 2);
+-- INSERT INTO user_roles(user_id, role_id) VALUES(1, 3);
+-- INSERT INTO user_roles(user_id, role_id) VALUES(2, 1);
+-- INSERT INTO user_roles(user_id, role_id) VALUES(2, 2);
+-- INSERT INTO user_roles(user_id, role_id) VALUES(3, 1);
+
+--roles
+INSERT INTO roles(name) VALUES('ROLE_STUDENT');
+INSERT INTO roles(name) VALUES('ROLE_MANAGER');
+INSERT INTO roles(name) VALUES('ROLE_ADMIN');
+
 
 --voucher
 insert into voucher(id,state,vouchercode,validUntil,certification_id) values (10020,'NEW','VC1234',sysdate,10001);
@@ -28,4 +36,4 @@ insert into certification_skill(certification_id, skill_id) values (10003,20001)
 insert into certification_skill(certification_id, skill_id) values (10003,20002);
 insert into certification_skill(certification_id, skill_id) values (10001,20002);
 
-update voucher set user_id=10012 where id = 10020;
+-- update voucher set user_id=10012 where id = 10020;

@@ -94,18 +94,18 @@ class CertificationsAppApplicationTests {
 		Assertions.assertEquals(usersurname, "Black");
 	}
 
-	@Test
-	void saveCertificationSeqTest(@Autowired CertificationService certService, @Autowired UserJpaRepository userRepository) {
-		Certification certification = new Certification("My seq test1", "https://mycert.com", BigDecimal.valueOf(200), "EUR", State.ACTIVE);
-		Certification certification2 = new Certification("My seq test2", "https://mycert.com", BigDecimal.valueOf(200), "EUR", State.ACTIVE);
-		User user = new User("Jozko", "Mrkvicka", "fajnamrkva@damaca.sk");
-	    certService.saveCertification(certification);
-		certService.saveCertification(certification2);
-		userRepository.save(user);
-		log.info("Created certification1: " + certification.toString());
-		log.info("Created certification2: " + certification2.toString());
-		log.info("Created User: " + user.toString());
-	}
+	// @Test
+	// void saveCertificationSeqTest(@Autowired CertificationService certService, @Autowired UserJpaRepository userRepository) {
+	// 	Certification certification = new Certification("My seq test1", "https://mycert.com", BigDecimal.valueOf(200), "EUR", State.ACTIVE);
+	// 	Certification certification2 = new Certification("My seq test2", "https://mycert.com", BigDecimal.valueOf(200), "EUR", State.ACTIVE);
+	// 	User user = new User("Jozko", "Mrkvicka", "fajnamrkva@damaca.sk");
+	//     certService.saveCertification(certification);
+	// 	certService.saveCertification(certification2);
+	// 	userRepository.save(user);
+	// 	log.info("Created certification1: " + certification.toString());
+	// 	log.info("Created certification2: " + certification2.toString());
+	// 	log.info("Created User: " + user.toString());
+	// }
 
 	@Test
 	@Transactional

@@ -11,13 +11,7 @@ export default new Vuex.Store({
     password: "",
     loggedIn: false,
     certifications: [],
-    userId: null,
-    notificationsMessages: [
-      { key: "updateSuccess", notification: "You have successfully updated your profile." },
-      { key: "updateError", notification: "Please try again." },
-    ],
-    chosenMessage: '',
-    notifications: false
+    user: {}
   },
   mutations: {
     emailMutation(state, value) {
@@ -37,27 +31,8 @@ export default new Vuex.Store({
     certificationsMutation(state, value) {
       state.certifications = value;
     },
-    userIdMutation(state, value){
-      state.userId = value;
-    },
-    updateSuccess(state, key){
-      const msgResult = state.notificationsMessages.find(msg => {
-         return msg.key == key;
-      });
-      if (msgResult !== undefined && msgResult.notification !== undefined) {
-        state.chosenMessage = msgResult.notification;
-      }
-    },
-    updateError(state, key){
-      const msgResult = state.notificationsMessages.find(msg => {
-         return msg.key == key;
-      });
-      if (msgResult !== undefined && msgResult.notification !== undefined) {
-        state.chosenMessage = msgResult.notification;
-      }
-    },
-    notificationsMutation(state, value) {
-      state.notifications = value;
+    userMutation(state, value){
+      state.user = value;
     }
   },
   getters: {
@@ -73,89 +48,79 @@ export default new Vuex.Store({
     certifications(state: any){
       return state.certifications;
     },
-    userId(state: any){
-      return state.userId;
+    user(state: any){
+      return state.user;
     },
-    messageToDisplay(state){
-      return state.chosenMessage;
-    },
-    notifications(state){
-      return state.notifications;
-    }
   },
   actions: {
-    loginToApp({ commit, rootState }) {
-      //TODO login via backend API
-      commit("loggedInMutation", true);
-      localStorage.setItem("loggedIn", "true");
-      router.push("/");
+    //prihlasit sa do aplikacie
+    async loginToApp({ commit, rootState }) {
+      const API_URL = 'http://localhost:8080/api/auth/';
+      try {
+        const { data } = await axios.post(API_URL + 'signin', {email: this.state.email, password: this.state.password});
+        localStorage.setItem("token", JSON.stringify(data.token));
+        console.log(data);
+        commit("loggedInMutation", true);
+        localStorage.setItem("loggedIn", "true");
+        localStorage.setItem("user", JSON.stringify(data));
+        commit("userMutation", {firstname: data.firstname, surname: data.surname, email: data.email});
+        router.push("/");
+      } catch (err) {
+        console.log(err);
+      }
     },
+    //vytvorit certifikat
     async createCertificationRequest(
       { commit, rootState },
       certificationRequest
     ) {
       const url = "http://localhost:8080/certifications/";
-      const headers = {
-        "Content-Type": "application/json",
-        Autorization: localStorage.getItem("token")
-      };
+      const token = JSON.parse(localStorage.getItem("token") || '{}');
       try {
         const { data } = await axios.post(url, certificationRequest, {
-          headers
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: 'Bearer ' + token 
+          }
         });
       } catch (err) {
         console.log(err);
       }
     },
+
+    //register
     async sendNewRegisterRequest(
       { commit, rootState },
       registerRequest
     ) {
-      const url = "http://localhost:8080/users/";
-      const headers = {
-        "Content-Type": "application/json",
-        Autorization: localStorage.getItem("token")
-      };
+      const url = "http://localhost:8080/api/auth/signup";
       try {
-        const { data } = await axios.post(url, registerRequest, {
-          headers
-        });
-        commit("userIdMutation", data.id);
-        localStorage.setItem("userID", data.id);
+        const { data } = await axios.post(url, registerRequest);
+        router.push("/login");
       } catch (err) {
         console.log(err);
       }
-      commit("loggedInMutation", true);
-      localStorage.setItem("loggedIn", "true");
-      router.push("/");
     },
+
+    //update
     async sendUpdateRequest(
       { commit, rootState },
       updateRequest
     ) {
-      let userId = null;
-      if (rootState.userId == null){
-        userId = localStorage.getItem("userID");
-      } else {
-        userId = rootState.userId;
-      }
-      const url = "http://localhost:8080/users/" + userId;
-      const headers = {
-        "Content-Type": "application/json",
-        Autorization: localStorage.getItem("token")
-      };
+      const url = "http://localhost:8080/users/"
+      const token = JSON.parse(localStorage.getItem("token") || '{}');
       try {
         const { data } = await axios.put(url, updateRequest, {
-          headers
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: 'Bearer ' + token 
+          }
         });
         const key = 'updateSuccess';
-        commit('updateSuccess', key);
       } catch (err) {
         console.log(err);
         const key = 'updateError';
-        commit('updateError', key);
       }
-      commit('notificationsMutation', true);
     }
   },
   modules: {}
