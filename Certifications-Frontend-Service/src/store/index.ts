@@ -11,7 +11,9 @@ export default new Vuex.Store({
     password: "",
     loggedIn: false,
     certifications: [],
-    user: {}
+    user: {},
+    updateSuccess: false,
+    certificateSuccess: false
   },
   mutations: {
     emailMutation(state, value) {
@@ -33,6 +35,12 @@ export default new Vuex.Store({
     },
     userMutation(state, value){
       state.user = value;
+    },
+    updateSuccessMutation(state, value){
+      state.updateSuccess = value;
+    },
+    certificateSuccessMutation(state, value){
+      state.certificateSuccess = value;
     }
   },
   getters: {
@@ -51,6 +59,12 @@ export default new Vuex.Store({
     user(state: any){
       return state.user;
     },
+    updateSuccess(state: any){
+      return state.updateSuccess;
+    },
+    certificateSuccess(state: any){
+      return state.certificateSuccess;
+    }
   },
   actions: {
     //prihlasit sa do aplikacie
@@ -59,16 +73,24 @@ export default new Vuex.Store({
       try {
         const { data } = await axios.post(API_URL + 'signin', {email: this.state.email, password: this.state.password});
         localStorage.setItem("token", JSON.stringify(data.token));
-        console.log(data);
         commit("loggedInMutation", true);
         localStorage.setItem("loggedIn", "true");
         localStorage.setItem("user", JSON.stringify(data));
         commit("userMutation", {firstname: data.firstname, surname: data.surname, email: data.email});
         router.push("/");
       } catch (err) {
-        console.log(err);
+        if(err.response.status == 401){
+          alert("BAD CREDENTIALS");
+        } else if(err.response){
+          alert("RESPONSE ERROR - client received an error response");
+        } else if (err.request){
+          alert("REQUEST ERROR - client never received a response");
+        } else {
+          alert("something wrong");
+        }
       }
     },
+
     //vytvorit certifikat
     async createCertificationRequest(
       { commit, rootState },
@@ -83,8 +105,15 @@ export default new Vuex.Store({
             Authorization: 'Bearer ' + token 
           }
         });
+        commit("certificateSuccessMutation", true);
       } catch (err) {
-        console.log(err);
+        if(err.response){
+          alert("RESPONSE ERROR - client received an error response");
+        } else if (err.request){
+          alert("REQUEST ERROR - client never received a response");
+        } else {
+          alert("something wrong");
+        }
       }
     },
 
@@ -98,7 +127,15 @@ export default new Vuex.Store({
         const { data } = await axios.post(url, registerRequest);
         router.push("/login");
       } catch (err) {
-        console.log(err);
+        if(err.response.status == 400){
+          alert("EMAIL IS USED");
+        } else if(err.response){
+          alert("RESPONSE ERROR - client received an error response");
+        } else if (err.request){
+          alert("REQUEST ERROR - client never received a response");
+        } else {
+          alert("something wrong");
+        }
       }
     },
 
@@ -107,21 +144,26 @@ export default new Vuex.Store({
       { commit, rootState },
       updateRequest
     ) {
-      const url = "http://localhost:8080/users/"
+      const url = "http://localhost:8080/api/test/users/update/"
       const token = JSON.parse(localStorage.getItem("token") || '{}');
       try {
-        const { data } = await axios.put(url, updateRequest, {
+        const { data } = await axios.post(url, updateRequest, {
           headers: {
             "Content-Type": "application/json",
             Authorization: 'Bearer ' + token 
           }
         });
-        const key = 'updateSuccess';
+        commit("updateSuccessMutation", true);
       } catch (err) {
-        console.log(err);
-        const key = 'updateError';
+        if(err.response){
+          alert("RESPONSE ERROR - client received an error response");
+        } else if (err.request){
+          alert("REQUEST ERROR - client never received a response");
+        } else {
+          alert("something wrong");
+        }
       }
     }
   },
-  modules: {}
+  modules: {},
 });

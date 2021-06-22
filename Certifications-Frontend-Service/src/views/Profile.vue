@@ -6,13 +6,13 @@
       </v-col>
     </v-row>
     <v-divider />
-    <!-- <v-row>
+    <v-row>
       <v-layout align-center justify-center>
         <v-flex md4 sm8 xs12 style="padding-top: 2em">
-          <flashmessage></flashmessage>
+          <flash-message class="myCustomClass"></flash-message>
         </v-flex>
       </v-layout>
-    </v-row> -->
+    </v-row>
     <v-row>
       <v-layout align-center justify-center>
         <v-flex md4 sm8 xs12 style="padding-top: 2em">
@@ -31,13 +31,6 @@
                   label="Enter your surname"
                   type="text"
                   v-model="userSurName"
-                ></v-text-field>
-                <v-text-field
-                  prepend-icon="mdi-account"
-                  label="Enter your email"
-                  type="text"
-                  :counter="50"
-                  v-model="userEmail"
                 ></v-text-field>
               </v-form>
             </v-card-text>
@@ -121,8 +114,10 @@
 </template>
 
 <script>
-import axios from "axios";
-import flashmessage from "@/components/FlashMessage.vue";
+import Vue from "vue";
+import VueFlashMessage from "vue-flash-message";
+import { mapGetters } from "vuex";
+Vue.use(VueFlashMessage);
 
 export default {
   data() {
@@ -138,15 +133,9 @@ export default {
       currencyRules: [v => !!v || "Currency is required!"],
       urlRules: [v => !!v || "Url is required!"],
       userFirstName: "",
-      userSurName: "",
-      userEmail: "",
-      password: "",
-      notifications: this.$store.getters.notifications
+      userSurName: ""
     };
   },
-  // components: {
-  //   flashmessage
-  // },
   methods: {
     closeNewCertificationDialog() {
       this.newCertificationDialog = false;
@@ -167,25 +156,53 @@ export default {
     sendUpdateRequest() {
       this.$store.dispatch("sendUpdateRequest", {
         email: this.userEmail,
-        name: this.userFirstName,
-        password: this.password,
+        firstname: this.userFirstName,
         surname: this.userSurName
       });
     }
   },
-  async created() {
-    let userId = null;
-    if (this.$store.getters.userId == null) {
-      userId = localStorage.getItem("userID");
+  created() {
+    let user;
+    if (Object.keys(this.$store.getters.user).length === 0) {
+      user = JSON.parse(localStorage.getItem("user"));
     } else {
-      userId = this.$store.getters.userId;
+      user = this.$store.getters.user;
     }
-    const url = "http://localhost:8080/users/" + userId;
-    const { data } = await axios.get(url);
-    this.userFirstName = data.name;
-    this.userSurName = data.surname;
-    this.userEmail = data.email;
-    this.password = data.password;
+    this.userFirstName = user.firstname;
+    this.userSurName = user.surname;
+    this.userEmail = user.email;
+  },
+  computed: {
+    ...mapGetters(["updateSuccess", "certificateSuccess"])
+  },
+  watch: {
+    updateSuccess() {
+      if (this.updateSuccess == true) {
+        this.flash("Profile successfully updated", "success", {
+          timeout: 2000
+        });
+        this.$store.commit("updateSuccessMutation", false);
+        this.$store.commit("userMutation", {
+          firstname: this.userFirstName,
+          surname: this.userSurName,
+          email: this.userEmail
+        });
+        const data = {
+          firstname: this.userFirstName,
+          surname: this.userSurName,
+          email: this.userEmail
+        };
+        localStorage.setItem("user", JSON.stringify(data));
+      }
+    },
+    certificateSuccess() {
+      if (this.certificateSuccess == true) {
+        this.flash("Certificate successfully created!", "success", {
+          timeout: 2000
+        });
+        this.$store.commit("certificateSuccessMutation", false);
+      }
+    }
   }
 };
 </script>

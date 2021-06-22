@@ -8,18 +8,10 @@ insert into certification(id,name,url, price, version) values (10005,'Oracle 12c
 
 insert into certification(id,name,url, price, version) values (h2seq.nextval,'Spring','https://spring.io', 100.50,0);
 
---user_roles
--- INSERT INTO user_roles(user_id, role_id) VALUES(1, 1);
--- INSERT INTO user_roles(user_id, role_id) VALUES(1, 2);
--- INSERT INTO user_roles(user_id, role_id) VALUES(1, 3);
--- INSERT INTO user_roles(user_id, role_id) VALUES(2, 1);
--- INSERT INTO user_roles(user_id, role_id) VALUES(2, 2);
--- INSERT INTO user_roles(user_id, role_id) VALUES(3, 1);
-
 --roles
-INSERT INTO roles(name) VALUES('ROLE_STUDENT');
-INSERT INTO roles(name) VALUES('ROLE_MANAGER');
-INSERT INTO roles(name) VALUES('ROLE_ADMIN');
+-- INSERT INTO roles(id, name) VALUES(3, 'ROLE_STUDENT');
+-- INSERT INTO roles(id, name) VALUES(2, 'ROLE_MANAGER');
+-- INSERT INTO roles(id, name) VALUES(1, 'ROLE_ADMIN');
 
 
 --voucher

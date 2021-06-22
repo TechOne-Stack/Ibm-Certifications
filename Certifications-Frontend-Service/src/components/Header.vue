@@ -26,6 +26,8 @@ export default {
     logout() {
       this.$store.commit("loggedInMutation", false);
       localStorage.removeItem("loggedIn");
+      localStorage.removeItem("user");
+      localStorage.removeItem("token");
       location.reload();
     }
   }

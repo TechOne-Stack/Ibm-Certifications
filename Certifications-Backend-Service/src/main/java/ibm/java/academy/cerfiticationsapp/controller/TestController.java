@@ -1,16 +1,36 @@
 package ibm.java.academy.cerfiticationsapp.controller;
 
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import ibm.java.academy.cerfiticationsapp.model.User;
+import ibm.java.academy.cerfiticationsapp.model.Voucher;
+import ibm.java.academy.cerfiticationsapp.payload.request.UpdateRequest;
+import ibm.java.academy.cerfiticationsapp.payload.request.VoucherUpdateRequest;
+import ibm.java.academy.cerfiticationsapp.payload.response.MessageResponse;
+import ibm.java.academy.cerfiticationsapp.service.UserService;
+import ibm.java.academy.cerfiticationsapp.service.VoucherService;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/test")
 public class TestController {
+
+	@Autowired
+	UserService userService;
+
+	@Autowired
+	VoucherService voucherService;
+
     @GetMapping("/all")
 	public String allAccess() {
 		return "Public Content.";
@@ -33,5 +53,29 @@ public class TestController {
 	public String adminAccess() {
 		return "Admin Board.";
 	}
- 
+	
+	@PostMapping("/users/update/")
+	@PreAuthorize("hasRole('STUDENT') or hasRole('MANAGER') or hasRole('ADMIN')")
+	public ResponseEntity<?> udpateUser(@Valid @RequestBody UpdateRequest updateRequest) {
+		User user = userService.updateUser(updateRequest.getEmail(), updateRequest.getFirstname(), updateRequest.getSurname());
+		if(user == null){
+			return ResponseEntity
+					.badRequest()
+					.body(new MessageResponse("Something is wrong!"));
+		}
+		return ResponseEntity.ok(new MessageResponse("User updated successfully!"));
+	}
+
+
+	@PostMapping("/vouchers/update/")
+	@PreAuthorize("hasRole('STUDENT') or hasRole('MANAGER') or hasRole('ADMIN')")
+	public ResponseEntity<?> udpateVoucher(@Valid @RequestBody VoucherUpdateRequest updateRequest) {
+		Voucher voucher = voucherService.assignVoucherToUser(updateRequest.getVoucherId(), updateRequest.getUserId());
+		if(voucher == null){
+			return ResponseEntity
+					.badRequest()
+					.body(new MessageResponse("Something is wrong!"));
+		}
+		return ResponseEntity.ok(new MessageResponse("Voucher updated successfully!"));
+	}
 }

@@ -12,6 +12,7 @@
 import Footer from "./components/Footer.vue";
 import Header from "./components/Header.vue";
 import { mapGetters, mapMutations } from "vuex";
+
 export default {
   components: {
     Footer,
