@@ -162,8 +162,8 @@
                 <v-card-actions>
                   <v-spacer />
                   <v-btn @click="closeAssignVoucherToUserForm" color="danger"
-                >Close</v-btn
-              >
+                    >Close</v-btn
+                  >
                 </v-card-actions>
               </v-card>
             </v-dialog>
@@ -191,7 +191,7 @@ export default {
   data() {
     return {
       currentVoucher: {},
-      assignVoucherToUserDialog: false,
+      assignVoucherToUserDialog: false
     };
   },
   created() {
@@ -202,7 +202,7 @@ export default {
   computed: {
     ...mapGetters(["vouchers"]),
     ...mapGetters(["voucherDetailData"]),
-    ...mapGetters(["voucherDetailUserData"]),
+    ...mapGetters(["voucherDetailUserData"])
   },
   async mounted() {
     const voucherData = await axios.get(
@@ -228,7 +228,7 @@ export default {
     closeAssignVoucherToUserForm() {
       this.assignVoucherToUserDialog = false;
     }
-  },
+  }
 };
 </script>
 

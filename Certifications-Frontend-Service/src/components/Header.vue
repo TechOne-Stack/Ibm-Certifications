@@ -1,12 +1,17 @@
 <template>
   <v-app-bar app dark>
-    <router-link to="/" tag="span" class="pointerClass">
+    <router-link to="/certificationsoverview" tag="span" class="pointerClass">
       <h2>IBM@Certifications</h2>
     </router-link>
     <v-spacer />
 
     <router-link to="/voucher" tag="span" class="pointerClass">
       <h2>IBM@Vouchers</h2>
+    </router-link>
+    <v-spacer />
+
+    <router-link to="/skillsoverview" tag="span" class="pointerClass">
+      <h2>IBM@Skills</h2>
     </router-link>
     <v-spacer />
 

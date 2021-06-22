@@ -14,7 +14,7 @@ export default new Vuex.Store({
     skills: [],
     vouchers: [],
     voucherDetailData: [],
-    voucherDetailUserData: [],
+    voucherDetailUserData: []
   },
   mutations: {
     emailMutation(state, value) {
@@ -60,7 +60,7 @@ export default new Vuex.Store({
     certifications(state: any) {
       return state.certifications;
     },
-    skills(state: any){
+    skills(state: any) {
       return state.skills;
     },
     vouchers(state: any) {
@@ -97,6 +97,23 @@ export default new Vuex.Store({
         console.log(err);
       }
     },
+    async createSkillRequest(
+      { commit, rootState },
+      skillRequest
+    ) {
+      const url = "http://localhost:8080/skills/";
+      const headers = {
+        "Content-Type": "application/json",
+        Autorization: localStorage.getItem("token")
+      };
+      try {
+        const { data } = await axios.post(url, skillRequest, {
+          headers
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    },
     async updateCertificationRequest(
       { commit, rootState },
       certificationRequest
@@ -106,9 +123,27 @@ export default new Vuex.Store({
         "Content-Type": "application/json",
         Autorization: localStorage.getItem("token")
       };
-      try{
-      const { data } = await axios.post(url, certificationRequest, {
-        headers});
+      try {
+        const { data } = await axios.post(url, certificationRequest, {
+          headers
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    async updateSkillRequest(
+      { commit, rootState },
+      skillRequest
+    ) {
+      const url = "http://localhost:8080/update-skill";
+      const headers = {
+        "Content-Type": "application/json",
+        Autorization: localStorage.getItem("token")
+      };
+      try {
+        const { data } = await axios.post(url, skillRequest, {
+          headers
+        });
       } catch (err) {
         console.log(err);
       }

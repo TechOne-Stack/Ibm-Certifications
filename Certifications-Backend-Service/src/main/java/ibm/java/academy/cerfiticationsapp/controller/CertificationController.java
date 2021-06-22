@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,9 +28,9 @@ public class CertificationController {
 
     @PostMapping(path = "/update-certificate", consumes = "application/json", produces = "application/json")
     @ResponseBody
-    public Certification updateCertificate(@RequestBody updateCertificateWraper param) {
-        Certification newCertification = param.getCertification();
-        List<Long> skills = param.getSkills();
+    public Certification updateCertificate(@RequestBody updateCertificateWraper updateCertificateWraper) {
+        Certification newCertification = updateCertificateWraper.getCertification();
+        List<Long> skills = updateCertificateWraper.getSkills();
 
         System.out.println(newCertification);
         System.out.println(skills);
@@ -43,8 +42,6 @@ public class CertificationController {
         oldCertification.setUrl(newCertification.getUrl());
         oldCertification.setCurrency(newCertification.getCurrency());
         oldCertification.setPrice(newCertification.getPrice()  != null ? newCertification.getPrice() : new BigDecimal(0.0));
-
-        
 
         List<Skill> skillList = new ArrayList<Skill>();
         for(Long index : skills){
