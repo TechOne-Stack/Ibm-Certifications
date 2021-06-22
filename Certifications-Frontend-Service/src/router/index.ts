@@ -5,6 +5,8 @@ import Login from "@/views/Login.vue";
 import CertificationDetail from "@/views/CertificationDetail.vue";
 import Profile from "@/views/Profile.vue";
 import EditCertificateForm from "@/views/EditCertificateForm.vue";
+import Voucher from "@/views/Voucher.vue";
+import VoucherDetail from "@/views/VoucherDetail.vue";
 
 Vue.use(VueRouter);
 
@@ -13,6 +15,11 @@ const routes: Array<RouteConfig> = [
     path: "/",
     name: "Home",
     component: Home
+  },
+  {
+    path: "/voucher",
+    name: "Voucher",
+    component: Voucher
   },
   {
     path: "/login",
@@ -33,6 +40,11 @@ const routes: Array<RouteConfig> = [
     path: "/edit-certificate-form/:id",
     name: "edit-certificate-form",
     component: EditCertificateForm
+  },
+  {
+    path: "/voucherDetail/:id",
+    name: "VoucherDetail",
+    component: VoucherDetail
   }
 ];
 
