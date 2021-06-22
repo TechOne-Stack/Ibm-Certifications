@@ -14,12 +14,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import ibm.java.academy.cerfiticationsapp.model.User;
 import ibm.java.academy.cerfiticationsapp.repository.UserJpaRepository;
+// import ibm.java.academy.cerfiticationsapp.service.UserService;
 
 @Controller
 public class RestController {
 
     @Autowired 
     UserJpaRepository userJpaRepository;
+    
+    // @Autowired 
+    // UserService service;
     
     @GetMapping("/all-users")
     @ResponseBody
@@ -34,7 +38,7 @@ public class RestController {
     }
 
     @DeleteMapping("/delete-user")
-    @ResponseBody
+    @ResponseBody 
     public void deleteUser(@RequestParam("id") Long id) {
         userJpaRepository.deleteAllById(Arrays.asList(id));
     }
