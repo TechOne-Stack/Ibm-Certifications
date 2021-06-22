@@ -7,6 +7,7 @@ import Profile from "@/views/Profile.vue";
 import Voucher from "@/views/Voucher.vue";
 import VoucherDetail from "@/views/VoucherDetail.vue";
 import Register from "@/views/Register.vue";
+import AllUsers from "../views/AllUsers.vue";
 
 Vue.use(VueRouter);
 
@@ -45,6 +46,11 @@ const routes: Array<RouteConfig> = [
     path: "/register",
     name: "Register",
     component: Register
+  },
+  {  
+    path: "/all-users",
+    name: "AllUsers",
+    component: AllUsers
   }
 ];
 

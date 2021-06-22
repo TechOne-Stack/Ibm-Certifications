@@ -16,7 +16,8 @@ export default new Vuex.Store({
     voucherDetailUserData: [],
     user: {},
     updateSuccess: false,
-    certificateSuccess: false
+    certificateSuccess: false,
+    admin: false
   },
   mutations: {
     emailMutation(state, value) {
@@ -85,6 +86,9 @@ export default new Vuex.Store({
     },
     certificateSuccess(state: any){
       return state.certificateSuccess;
+    },
+    admin(state: any){
+      return localStorage.getItem("admin");
     }
   },
   actions: {
@@ -98,6 +102,9 @@ export default new Vuex.Store({
         localStorage.setItem("loggedIn", "true");
         localStorage.setItem("user", JSON.stringify(data));
         commit("userMutation", {firstname: data.firstname, surname: data.surname, email: data.email});
+        if(data.roles.includes("ROLE_ADMIN")){
+          localStorage.setItem("admin", "true");
+        }
         router.push("/");
       } catch (err) {
         if(err.response.status == 401){
@@ -187,16 +194,22 @@ export default new Vuex.Store({
     },
     async createVoucherRequest({ commit, rootState }, voucherRequest) {
       const url = "http://localhost:8080/vouchers/";
-      const headers = {
-        "Content-Type": "application/json",
-        Autorization: localStorage.getItem("token")
-      };
+      const token = JSON.parse(localStorage.getItem("token") || '{}');
       try {
         const { data } = await axios.post(url, voucherRequest, {
-          headers
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: 'Bearer ' + token 
+          }
         });
       } catch (err) {
-        console.log(err);
+        if(err.response){
+          alert("RESPONSE ERROR - client received an error response");
+        } else if (err.request){
+          alert("REQUEST ERROR - client never received a response");
+        } else {
+          alert("something wrong");
+        }
       }
     }
   },

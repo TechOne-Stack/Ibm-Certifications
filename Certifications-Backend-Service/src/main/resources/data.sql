@@ -16,7 +16,7 @@ insert into certification(id,name,url, price, version) values (h2seq.nextval,'Sp
 
 --voucher
 insert into voucher(id,state,vouchercode,validUntil,certification_id) values (10020,'NEW','VC1234',sysdate,10001);
-insert into voucher(id,state,vouchercode,validUntil,certification_id, user_id) values (10021,'NEW','VC1235',sysdate,10003, 10011);
+insert into voucher(id,state,vouchercode,validUntil,certification_id, user_id) values (10021,'NEW','VC1235',sysdate,10003, 1);
 
 --skill
 insert into skill(id,name,desc) values (20001, 'Java 11 developer','Java 11 developer');

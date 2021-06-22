@@ -43,7 +43,13 @@ export default Vue.extend({
     if (this.loggedIn == false) {
       this.$router.push("/login");
     }
-    const { data } = await axios.get("http://localhost:8080/vouchers");
+    const token = JSON.parse(localStorage.getItem("token"));
+    const { data } = await axios.get("http://localhost:8080/vouchers", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: 'Bearer ' + token 
+      }
+    });
     console.log(data._embedded.vouchers);
     this.vouchersMutation(data._embedded.vouchers);
   },
