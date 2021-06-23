@@ -24,25 +24,25 @@ public class CertificationController {
     @Autowired 
     private CertificationJpaRepository certificationJpaRepository;
 
-    @DeleteMapping("/certifications/{id}")
+    @DeleteMapping("/delete-certification/{id}")
     @ResponseBody
     public void deleteCertifications(@PathVariable("id") Long id) {
         certificationService.deleteCertification(id);
     }
     
-    @GetMapping(value="/certifications")
+    @GetMapping(value="/all-certifications")
     @ResponseBody
     public List<Certification> getCertifications() {
         return certificationJpaRepository.findAll();
     }
 
-    @GetMapping(value="/certifications/{id}/skills")
+    @GetMapping(value="/certification-skills/{id}")
     @ResponseBody
     public List<Skill> getCertifiationSkills(@PathVariable("id") Long id) {
         return certificationService.getCertificationSkills(id);
     }
 
-    @GetMapping(value="/certifications/{id}/vouchers")
+    @GetMapping(value="/certification-vouchers/{id}")
     @ResponseBody
     public List<Voucher> getCertifiationVouchers(@PathVariable("id") Long id) {
         return certificationService.getCertificationVouchers(id);
