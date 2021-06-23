@@ -10,10 +10,12 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 
 import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import ibm.java.academy.cerfiticationsapp.model.Certification;
 import ibm.java.academy.cerfiticationsapp.model.Skill;
+import ibm.java.academy.cerfiticationsapp.model.Voucher;
 import ibm.java.academy.cerfiticationsapp.repository.CertificationJpaRepository;
 import ibm.java.academy.cerfiticationsapp.repository.SkillJpaRepository;
 import lombok.extern.java.Log;
@@ -61,6 +63,29 @@ public class CertificationService {
         List<Certification> allCerts = certificationJpaRepository.findAll();
         BigDecimal sum = allCerts.stream().filter(x -> x.getPrice() != null).map(x -> x.getPrice()).reduce(BigDecimal.ZERO, BigDecimal::add);
         return sum;
+    }
+
+    public void deleteCertification(long id) {
+        Optional<Certification> certification = certificationJpaRepository.findById(id);
+        if (certification.isPresent()) {
+            certificationJpaRepository.delete(certification.get());
+        }
+    }
+
+    public List<Skill> getCertificationSkills(long id) {
+        Optional<Certification> certification = certificationJpaRepository.findById(id);
+        if (certification.isPresent()) {
+            return certification.get().getSkills();
+        }
+        return Collections.emptyList();
+    }
+
+    public List<Voucher> getCertificationVouchers(long id) {
+        Optional<Certification> certification = certificationJpaRepository.findById(id);
+        if (certification.isPresent()) {
+            return certification.get().getVouchers();
+        }
+        return Collections.emptyList();
     }
     
 }
