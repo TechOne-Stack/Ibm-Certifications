@@ -14,6 +14,7 @@ export default new Vuex.Store({
     vouchers: [],
     voucherDetailData: [],
     voucherDetailUserData: [],
+    listOfUsers: [],
     user: {},
     updateSuccess: false,
     certificateSuccess: false,
@@ -46,6 +47,9 @@ export default new Vuex.Store({
     },
     voucherDetailUserMutation(state, value) {
       state.voucherDetailUserData = value;
+    },
+    listOfUsersMutation(state, value) {
+      state.listOfUsers = value;
     },
     userMutation(state, value){
       state.user = value;
@@ -81,6 +85,9 @@ export default new Vuex.Store({
     },
     voucherDetailUserData(state: any) {
       return state.voucherDetailUserData;
+    },
+    listOfUsers(state: any) {
+      return state.listOfUsers;
     },
     user(state: any){
       return state.user;
@@ -200,7 +207,7 @@ export default new Vuex.Store({
       }
     },
     async createVoucherRequest({ commit, rootState }, voucherRequest) {
-      const url = "http://localhost:8080/vouchers/";
+      const url = "http://localhost:8080/voucherRequest/";
       const token = JSON.parse(localStorage.getItem("token") || '{}');
       try {
         const { data } = await axios.post(url, voucherRequest, {
@@ -217,6 +224,21 @@ export default new Vuex.Store({
         } else {
           alert("something wrong");
         }
+      }
+    },
+
+    async assignVoucherToUserRequest({ commit, rootState }, voucherUserRequest) {
+      const url = "http://localhost:8080/voucher/" + voucherUserRequest.voucherId + "/user/" + voucherUserRequest.userId;
+      const token = JSON.parse(localStorage.getItem("token") || '{}');
+      try {
+        const { data } = await axios.post(url, voucherUserRequest, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: 'Bearer ' + token 
+          }
+        });
+      } catch (err) {
+        console.log(err);
       }
     },
 
