@@ -90,9 +90,17 @@ export default Vue.extend({
     };
   },
   async created() {
+    const token = JSON.parse(localStorage.getItem("token"));
     const { data } = await axios.get(
-      "http://localhost:8080/skills/" + this.$route.params.id
+      "http://localhost:8080/skills/" + this.$route.params.id,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token
+        }
+      }
     );
+
     this.skillName = data.name;
     this.skillDescription = data.description;
     this.currentSkillId = data.id;

@@ -131,7 +131,13 @@ export default Vue.extend({
     };
   },
   async mounted() {
-    const { data } = await axios.get("http://localhost:8080/skills");
+    const token = JSON.parse(localStorage.getItem("token"));
+    const { data } = await axios.get("http://localhost:8080/skills", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token
+      }
+    });
     this.skills = data._embedded.skills;
   },
   methods: {
@@ -150,8 +156,14 @@ export default Vue.extend({
       this.closeNewSkillDialog();
     },
     async gettSkills() {
+      const token = JSON.parse(localStorage.getItem("token"));
       let temp = [];
-      temp = await axios.get("http://localhost:8080/skills");
+      temp = await axios.get("http://localhost:8080/skills", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token
+        }
+      });
       console.log(temp);
       this.skills = temp.data._embedded.skills;
     }

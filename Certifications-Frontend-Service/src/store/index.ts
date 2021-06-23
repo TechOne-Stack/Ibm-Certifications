@@ -224,10 +224,11 @@ export default new Vuex.Store({
       { commit, rootState },
       skillRequest
     ) {
+      const token = JSON.parse(localStorage.getItem("token") || '{}');
       const url = "http://localhost:8080/skills/";
       const headers = {
         "Content-Type": "application/json",
-        Autorization: localStorage.getItem("token")
+        Authorization: "Bearer " + token
       };
       try {
         const { data } = await axios.post(url, skillRequest, {
@@ -241,10 +242,11 @@ export default new Vuex.Store({
       { commit, rootState },
       certificationRequest
     ) {
+      const token = JSON.parse(localStorage.getItem("token") || '{}');
       const url = "http://localhost:8080/update-certificate";
       const headers = {
         "Content-Type": "application/json",
-        Autorization: localStorage.getItem("token")
+        Authorization: "Bearer " + token
       };
       try {
         const { data } = await axios.post(url, certificationRequest, {
@@ -258,10 +260,11 @@ export default new Vuex.Store({
       { commit, rootState },
       skillRequest
     ) {
+      const token = JSON.parse(localStorage.getItem("token") || '{}');
       const url = "http://localhost:8080/update-skill";
       const headers = {
         "Content-Type": "application/json",
-        Autorization: localStorage.getItem("token")
+        Authorization: "Bearer " + token
       };
       try {
         const { data } = await axios.post(url, skillRequest, {

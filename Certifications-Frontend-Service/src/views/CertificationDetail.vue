@@ -191,7 +191,7 @@ export default {
           }
         });
         this.currentCertification = {};
-        this.$router.push("/");
+        this.$router.push("/certificationsoverview");
       } catch (error) {
         console.log(error);
       }

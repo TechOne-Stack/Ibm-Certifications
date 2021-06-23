@@ -43,8 +43,17 @@ export default {
   },
   methods: {
     sendDeleteSkill() {
+      const token = JSON.parse(localStorage.getItem("token"));
       axios
-        .delete("http://localhost:8080/delete-skill?id=" + this.$props.skill.id)
+        .delete(
+          "http://localhost:8080/delete-skill?id=" + this.$props.skill.id,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + token
+            }
+          }
+        )
         .then(() => this.$root.$refs.skillsOver.gettSkills());
     }
   }

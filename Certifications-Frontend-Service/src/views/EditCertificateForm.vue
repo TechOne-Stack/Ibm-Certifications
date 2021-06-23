@@ -119,23 +119,6 @@
         </v-row>
       </v-flex>
     </v-layout>
-    <v-dialog v-model="successfullyEditedCert" persistent max-width="600px">
-      <v-card>
-        <v-card-title>
-          DONE
-        </v-card-title>
-        <v-card-text> text </v-card-text>
-        <v-card-actions>
-          <router-link
-            to="/certificationsoverview"
-            tag="span"
-            class="pointerClass mx-3"
-          >
-            <v-btn color="danger">Close</v-btn>
-          </router-link>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
   </v-container>
 </template>
 
@@ -170,12 +153,24 @@ export default {
     this.certificationUrl = this.currentCertification.url;
   },
   async mounted() {
-    const { data } = await axios.get("http://localhost:8080/skills");
+    const token = JSON.parse(localStorage.getItem("token"));
+    const { data } = await axios.get("http://localhost:8080/skills", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token
+      }
+    });
     let temp = [];
     temp = await axios.get(
       "http://localhost:8080/certifications/" +
         this.currentCertification.id +
-        "/skills"
+        "/skills",
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token
+        }
+      }
     );
     temp.data._embedded.skills.forEach(skill => {
       console.log(temp);

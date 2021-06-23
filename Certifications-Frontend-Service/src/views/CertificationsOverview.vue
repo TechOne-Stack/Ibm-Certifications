@@ -141,10 +141,13 @@ export default Vue.extend({
     ...mapGetters(["certifications"])
   },
   async mounted() {
-    if (this.loggedIn == false) {
-      this.$router.push("/login");
-    }
-    const { data } = await axios.get("http://localhost:8080/certifications");
+    const token = JSON.parse(localStorage.getItem("token"));
+    const { data } = await axios.get("http://localhost:8080/certifications", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token
+      }
+    });
     this.certificationsMutation(data._embedded.certifications);
   },
   methods: {
@@ -169,7 +172,13 @@ export default Vue.extend({
     },
     async getCertificates() {
       let temp = [];
-      temp = await axios.get("http://localhost:8080/certifications");
+      const token = JSON.parse(localStorage.getItem("token"));
+      temp = await axios.get("http://localhost:8080/certifications", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token
+        }
+      });
       this.certificationsMutation(temp.data._embedded.certifications);
     }
   }
