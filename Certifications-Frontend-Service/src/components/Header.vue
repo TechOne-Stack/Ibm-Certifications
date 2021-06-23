@@ -1,5 +1,9 @@
 <template>
   <v-app-bar app dark>
+    <router-link to="/" tag="span" class="pointerClass">
+      <h2 class="font-bold">HOME</h2>
+    </router-link>
+    <v-spacer />
     <router-link to="/certificationsoverview" tag="span" class="pointerClass">
       <h2>IBM@Certifications</h2>
     </router-link>
