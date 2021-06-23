@@ -35,7 +35,7 @@
                       <v-col cols="12">
                         <v-select
                           v-model="selectedCertification"
-                          :items="certifications"
+                          :items="this.$store.getters.certifications"
                           item-text="name"
                           item-value="id"
                           label="Certification"
@@ -49,7 +49,7 @@
                       <v-col cols="12">
                         <v-select
                           v-model="selectedUser"
-                          :items="listOfUsers.users"
+                          :items="this.$store.getters.listOfUsers.users"
                           item-text="surname"
                           item-value="id"
                           label="User"
@@ -123,54 +123,31 @@ export default {
       voucherRules: [
         (value) => value.length >= 5 || "Minimum 5 characters required",
       ],
-      certificationRules: [ (value) => value != null || "Item is not selected!"],
+      certificationRules: [(value) => value != null || "Item is not selected!"],
       selectedUser: null,
       selectedCertification: null,
-      selectedState: "NEW",
+      selectedState: "NEW"
     };
   },
   computed: {
     ...mapGetters(["vouchers", "listOfUsers", "certifications"]),
   },
-  async mounted() {
-    if (this.loggedIn == false) {
-      this.$router.push("/login");
-    }
-    this.mountedMock();
+  created() {
+    this.$store.dispatch("loadDatasForVouchers");
   },
+  // mounted() {
+  //   if (this.loggedIn == false) {
+  //     this.$router.push("/login");
+  //   }
+  //   this.$store.dispatch("loadDatasForVouchers");
+  //   console.log(this.vouchers);
+  // },
   methods: {
     ...mapMutations([
       "vouchersMutation",
       "listOfUsersMutation",
-      "certificationsMutation",
+      "certificationsMutation"
     ]),
-    async mountedMock() {
-      const token = JSON.parse(localStorage.getItem("token"));
-      const { data } = await axios.get("http://localhost:8080/vouchers", {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: 'Bearer ' + token 
-      }
-    });
-      const users = await axios.get("http://localhost:8080/users/", {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: 'Bearer ' + token 
-      }
-    });
-      const certificationData = await axios.get(
-        "http://localhost:8080/certifications/", {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: 'Bearer ' + token 
-      }
-    });
-      this.certificationsMutation(
-        certificationData.data._embedded.certifications
-      );
-      this.listOfUsersMutation(users.data._embedded);
-      this.vouchersMutation(data._embedded.vouchers);
-    },
     closeNewVoucherDialog() {
       this.newVoucherDialog = false;
       this.voucherCode = "";
@@ -187,8 +164,8 @@ export default {
         certificationId: this.selectedCertification,
         userId: this.selectedUser,
       });
-      this.mountedMock();
       this.closeNewVoucherDialog();
+      this.$store.dispatch("loadDatasForVouchers");
     },
   },
 };

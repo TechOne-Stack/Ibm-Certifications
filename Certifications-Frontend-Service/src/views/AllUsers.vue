@@ -21,7 +21,11 @@
           <td>{{ user.name }}</td>
           <td>{{ user.surname }}</td>
           <td>{{ user.email }}</td>
-          <td><button @click="removeUser(user.id)">Remove User</button></td>
+          <td>
+            <v-btn color="danger" @click="removeUser(user.id)"
+              >Remove User</v-btn
+            >
+          </td>
         </tr>
       </tbody>
     </template>

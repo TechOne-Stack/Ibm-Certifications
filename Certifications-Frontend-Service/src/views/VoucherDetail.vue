@@ -235,17 +235,32 @@ export default {
       "listOfUsersMutation",
     ]),
     async mountedMock() {
+      const token = JSON.parse(localStorage.getItem("token"));
       const voucherData = await axios.get(
         "http://localhost:8080/vouchers/" +
           this.currentVoucher.id +
-          "/certification"
+          "/certification",
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
       );
 
       const voucherUserData = await axios.get(
-        "http://localhost:8080/vouchers/" + this.currentVoucher.id + "/user"
+        "http://localhost:8080/vouchers/" + this.currentVoucher.id + "/user",
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
       );
 
-      const users = await axios.get("http://localhost:8080/users/");
+      const users = await axios.get("http://localhost:8080/users/", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      });
 
       this.voucherDetailMutation(voucherData.data);
       this.voucherDetailUserMutation(voucherUserData.data);

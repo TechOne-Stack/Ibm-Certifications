@@ -23,6 +23,7 @@ import ibm.java.academy.cerfiticationsapp.payload.request.UpdateRequest;
 import ibm.java.academy.cerfiticationsapp.payload.request.VoucherUpdateRequest;
 import ibm.java.academy.cerfiticationsapp.payload.response.MessageResponse;
 import ibm.java.academy.cerfiticationsapp.repository.UserJpaRepository;
+import ibm.java.academy.cerfiticationsapp.repository.VoucherJpaRepository;
 import ibm.java.academy.cerfiticationsapp.service.UserService;
 import ibm.java.academy.cerfiticationsapp.service.VoucherService;
 
@@ -39,6 +40,9 @@ public class TestController {
 
 	@Autowired
 	UserJpaRepository repo;
+
+	@Autowired
+	VoucherJpaRepository repoVoucher;
 
     @GetMapping("/all")
 	public String allAccess() {
@@ -101,6 +105,10 @@ public class TestController {
     @ResponseBody
 	@PreAuthorize("hasRole('ADMIN')")
     public void deleteUser(@PathVariable("id") Long id) {
-        repo.delete(repo.findById(id).get());
+        User user = repo.findById(id).get();
+		for(Voucher v: user.getVoucher()){
+			repoVoucher.delete(v);
+		}
+		repo.delete(user);
     }
 }
