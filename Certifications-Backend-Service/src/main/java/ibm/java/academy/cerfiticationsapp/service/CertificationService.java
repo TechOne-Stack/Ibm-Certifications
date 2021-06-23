@@ -18,7 +18,6 @@ import ibm.java.academy.cerfiticationsapp.model.Skill;
 import ibm.java.academy.cerfiticationsapp.model.Voucher;
 import ibm.java.academy.cerfiticationsapp.repository.CertificationJpaRepository;
 import ibm.java.academy.cerfiticationsapp.repository.SkillJpaRepository;
-import ibm.java.academy.cerfiticationsapp.repository.VoucherJpaRepository;
 import lombok.extern.java.Log;
 
 @Log
@@ -28,9 +27,6 @@ public class CertificationService {
 
     @Autowired
     private CertificationJpaRepository certificationJpaRepository;
-
-    @Autowired
-    private VoucherJpaRepository voucherJpaRepository;
 
     @Autowired
     private SkillJpaRepository skillJpaRepository;

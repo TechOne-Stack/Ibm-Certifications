@@ -52,7 +52,6 @@ export default Vue.extend({
         Authorization: 'Bearer ' + token 
       }
     });
-    console.log(data);
     this.certificationsMutation(data);
   },
   methods: {
