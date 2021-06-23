@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <Header v-if="loggedIn" />
-    <v-main>
+    <v-main class="bg-gradient-to-t from-blue-200 to-indigo-900">
       <router-view />
     </v-main>
     <Footer />

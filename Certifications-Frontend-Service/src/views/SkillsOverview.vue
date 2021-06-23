@@ -1,5 +1,5 @@
 <template>
-  <div class="home bg-gradient-to-t from-blue-200 to-indigo-900">
+  <div class="home">
     <v-row>
       <v-col cols="12">
         <div v-if="this.skills !== undefined && this.skills.length > 0">
@@ -24,16 +24,44 @@
           </v-flex>
           <v-row>
             <v-col>
-              <v-layout d-flex flex-wrap justify-space-between>
+              <v-layout d-flex flex-wrap justify-space-around>
                 <div v-for="skill in this.skills" tag="div" :key="skill.id">
-                  <SkillItem :skill="skill" />
+                  <SkillItem :skill="skill" ref="skillsOver" />
                 </div>
               </v-layout>
             </v-col>
           </v-row>
         </div>
         <div v-else>
-          <h3>No Skills Found</h3>
+          <v-container fluid fill-height>
+            <v-row>
+              <v-col cols="12">
+                <v-row>
+                  <v-col cols="12">
+                    <v-layout align-center justify-center>
+                      <h1
+                        class="text-4xl sm:text-5xl md:text-7xl font-bold text-gray-200"
+                      >
+                        <h1 class="text-center mt-3">No Skills Found</h1>
+                      </h1>
+                    </v-layout>
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col cols="12">
+                    <v-flex justify-center>
+                      <v-btn
+                        @click.stop="newSkillDialog = true"
+                        color="primary"
+                        class="my-3"
+                        >Add New Skill
+                      </v-btn>
+                    </v-flex>
+                  </v-col>
+                </v-row>
+              </v-col>
+            </v-row>
+          </v-container>
         </div>
         <v-dialog v-model="newSkillDialog" persistent max-width="600px">
           <v-card>
@@ -89,6 +117,10 @@ export default Vue.extend({
   components: {
     SkillItem
   },
+  created() {
+    this.$root.$refs.skillsOver = this;
+    console.log(this.$root.$refs.skillsOver);
+  },
   data() {
     return {
       skills: [],
@@ -109,11 +141,19 @@ export default Vue.extend({
       this.skillName = "";
     },
     sendNewSkillDialog() {
-      this.$store.dispatch("createSkillRequest", {
-        name: this.skillName,
-        description: this.skillDescription
-      });
+      this.$store
+        .dispatch("createSkillRequest", {
+          name: this.skillName,
+          description: this.skillDescription
+        })
+        .then(() => this.gettSkills());
       this.closeNewSkillDialog();
+    },
+    async gettSkills() {
+      let temp = [];
+      temp = await axios.get("http://localhost:8080/skills");
+      console.log(temp);
+      this.skills = temp.data._embedded.skills;
     }
   }
 });

@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid fill-height bg-gradient-to-t from-blue-200 to-indigo-900>
+  <v-container fluid fill-height>
     <v-layout align-center justify-center>
       <v-flex md6 sm8 xs12>
         <v-row>
@@ -119,6 +119,23 @@
         </v-row>
       </v-flex>
     </v-layout>
+    <v-dialog v-model="successfullyEditedCert" persistent max-width="600px">
+      <v-card>
+        <v-card-title>
+          DONE
+        </v-card-title>
+        <v-card-text> text </v-card-text>
+        <v-card-actions>
+          <router-link
+            to="/certificationsoverview"
+            tag="span"
+            class="pointerClass mx-3"
+          >
+            <v-btn color="danger">Close</v-btn>
+          </router-link>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 

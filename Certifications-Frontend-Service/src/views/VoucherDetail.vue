@@ -2,7 +2,7 @@
   <div>
     <!-- component -->
     <main
-      class="grid place-items-center min-h-screen bg-gradient-to-t from-blue-200 to-indigo-900 p-5"
+      class="grid place-items-center min-h-screen p-5"
     >
       <div>
         <h1

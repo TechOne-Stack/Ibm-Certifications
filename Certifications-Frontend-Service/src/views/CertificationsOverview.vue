@@ -1,5 +1,5 @@
 <template>
-  <div class="home bg-gradient-to-t from-blue-200 to-indigo-900">
+  <div class="home">
     <v-row>
       <v-col cols="12">
         <div v-if="certifications !== undefined && certifications.length > 0">
@@ -98,13 +98,14 @@
                   <CertificationItem
                     style="cursor: pointer"
                     :certification="certification"
+                    ref="Home"
                   />
                 </router-link>
               </v-layout>
             </v-col>
           </v-row>
         </div>
-        <div v-else>
+        <div v-else style="height:100wh">
           <h3>No certifications found</h3>
         </div>
       </v-col>
@@ -144,7 +145,6 @@ export default Vue.extend({
       this.$router.push("/login");
     }
     const { data } = await axios.get("http://localhost:8080/certifications");
-    console.log(data);
     this.certificationsMutation(data._embedded.certifications);
   },
   methods: {
@@ -157,13 +157,20 @@ export default Vue.extend({
       this.certificationUrl = "";
     },
     sendNewCertificationDialog() {
-      this.$store.dispatch("createCertificationRequest", {
-        name: this.certificationName,
-        currency: this.certificationCurrency,
-        price: this.certificationPrice,
-        url: this.certificationUrl
-      });
+      this.$store
+        .dispatch("createCertificationRequest", {
+          name: this.certificationName,
+          currency: this.certificationCurrency,
+          price: this.certificationPrice,
+          url: this.certificationUrl
+        })
+        .then(() => this.getCertificates());
       this.closeNewCertificationDialog();
+    },
+    async getCertificates() {
+      let temp = [];
+      temp = await axios.get("http://localhost:8080/certifications");
+      this.certificationsMutation(temp.data._embedded.certifications);
     }
   }
 });

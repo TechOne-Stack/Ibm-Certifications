@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid fill-height bg-gradient-to-t from-blue-200 to-indigo-900>
+  <v-container fluid fill-height>
     <v-layout align-center justify-center>
       <v-flex md6 sm8 xs12>
         <v-row>

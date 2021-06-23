@@ -41,7 +41,7 @@ public class SkillController {
 
     @DeleteMapping("/delete-skill")
     @ResponseBody
-    public void deleteUser(@RequestParam("id") Long id) {
+    public boolean deleteUser(@RequestParam("id") Long id) {
         Skill skillToDelete = skillJpaRepository.getById(id);
         List<Certification> toSever = skillToDelete.getCertification();
         for(Certification certification : toSever){
@@ -49,6 +49,7 @@ public class SkillController {
             certificationJpaRepository.save(certification);
         }
         skillJpaRepository.deleteById(id);
+        return true;
     }
 
 }

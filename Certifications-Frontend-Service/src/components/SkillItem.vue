@@ -22,7 +22,7 @@
             <v-icon>mdi-pencil</v-icon>
           </v-btn>
         </router-link>
-        <v-btn color="danger" class="ml-2 mb-2">
+        <v-btn color="danger" class="ml-2 mb-2" @click="sendDeleteSkill">
           <span>DELETE</span>
           <v-icon>mdi-trash-can-outline</v-icon>
         </v-btn>
@@ -32,11 +32,20 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   props: {
     skill: {
       type: Object,
       require: true
+    }
+  },
+  methods: {
+    sendDeleteSkill() {
+      axios
+        .delete("http://localhost:8080/delete-skill?id=" + this.$props.skill.id)
+        .then(() => this.$root.$refs.skillsOver.gettSkills());
     }
   }
 };
