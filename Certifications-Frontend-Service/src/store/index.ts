@@ -263,31 +263,28 @@ export default new Vuex.Store({
     },
 
     async loadDatasForVouchers({commit}){
-    const token = JSON.parse(localStorage.getItem("token") || '{}');
-    const { data } = await axios.get("http://localhost:8080/vouchers", {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    });
-    const users = await axios.get("http://localhost:8080/users/", {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    });
-    const certificationData = await axios.get(
-      "http://localhost:8080/certifications/",
-      {
+      const token = JSON.parse(localStorage.getItem("token") || '{}');
+      const { data } = await axios.get("http://localhost:8080/vouchers", {
         headers: {
           Authorization: "Bearer " + token,
         },
-      }
-    );
-    commit("certificationsMutation",certificationData.data._embedded.certifications);
-    commit("listOfUsersMutation", users.data._embedded);
-    commit("vouchersMutation",data._embedded.vouchers);
-    // console.log(certificationData.data._embedded.certifications);
-    // console.log(users.data._embedded);
-    // console.log(data._embedded.vouchers);
+      });
+      const users = await axios.get("http://localhost:8080/users/", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      });
+      const certificationData = await axios.get(
+        "http://localhost:8080/certifications/",
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+      commit("certificationsMutation",certificationData.data._embedded.certifications);
+      commit("listOfUsersMutation", users.data._embedded);
+      commit("vouchersMutation",data._embedded.vouchers);
     },
     
     //nacitavanie vsetkych vouchers v user profile 

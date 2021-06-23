@@ -20,6 +20,8 @@
                           v-model="selectedState"
                           :items="voucherState"
                           label="State"
+                          required
+                          :rules="stateRules"
                         ></v-select>
                       </v-col>
                       <v-col cols="6">
@@ -124,9 +126,10 @@ export default {
         (value) => value.length >= 5 || "Minimum 5 characters required",
       ],
       certificationRules: [(value) => value != null || "Item is not selected!"],
+      stateRules: [(value) => value != ""|| "Item is not selected"],
       selectedUser: null,
       selectedCertification: null,
-      selectedState: "NEW"
+      selectedState: ""
     };
   },
   computed: {
@@ -135,13 +138,6 @@ export default {
   created() {
     this.$store.dispatch("loadDatasForVouchers");
   },
-  // mounted() {
-  //   if (this.loggedIn == false) {
-  //     this.$router.push("/login");
-  //   }
-  //   this.$store.dispatch("loadDatasForVouchers");
-  //   console.log(this.vouchers);
-  // },
   methods: {
     ...mapMutations([
       "vouchersMutation",
@@ -152,7 +148,7 @@ export default {
       this.newVoucherDialog = false;
       this.voucherCode = "";
       this.validUntil = "";
-      this.voucherState = null;
+      this.voucherState = ["NEW", "ACTIVE", "PROPOSED"];
       this.selectedUser = null;
       this.selectedCertification = null;
     },

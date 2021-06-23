@@ -36,7 +36,7 @@
               </p>
             </div>
 
-            <div class="border-t-2"></div>
+            
             <div class="flex space-x-2 text-gray-400 text-md my-2">
               <!-- svg  -->
 
@@ -183,7 +183,7 @@ export default {
         return;
       }
       const token = JSON.parse(localStorage.getItem("token"));
-      const url = "http://localhost:8080/certifications/" + this.currentCertification.id
+      const url = "http://localhost:8080/delete-certification/" + this.currentCertification.id
       try {
         const { data } =  await axios.delete(url, {
           headers: {
@@ -198,7 +198,7 @@ export default {
     },
     async fetchSkills() {
       const token = JSON.parse(localStorage.getItem("token"));
-      const url = "http://localhost:8080/certifications/" + this.currentCertification.id + "/skills/";
+      const url = "http://localhost:8080/certification-skills/" + this.currentCertification.id;
       try {
         const { data } = await axios.get(url, {
           headers: {
@@ -213,7 +213,7 @@ export default {
 
     async fetchVouchers() {
       const token = JSON.parse(localStorage.getItem("token"));
-      const url = "http://localhost:8080/certifications/" + this.currentCertification.id + "/vouchers"
+      const url = "http://localhost:8080/certification-vouchers/" + this.currentCertification.id;
       try {
         const { data } = await axios.get(url, {
           headers: {
