@@ -11,6 +11,7 @@ export default new Vuex.Store({
     password: "",
     loggedIn: false,
     certifications: [],
+    skills: [],
     vouchers: [],
     voucherDetailData: [],
     voucherDetailUserData: [],
@@ -39,6 +40,9 @@ export default new Vuex.Store({
     },
     certificationsMutation(state, value) {
       state.certifications = value;
+    },
+    skillsMutation(state, value) {
+      state.skills = value;
     },
     vouchersMutation(state, value) {
       state.vouchers = value;
@@ -80,6 +84,9 @@ export default new Vuex.Store({
     },
     certifications(state: any) {
       return state.certifications;
+    },
+    skills(state: any) {
+      return state.skills;
     },
     vouchers(state: any) {
       return state.vouchers;
@@ -213,7 +220,67 @@ export default new Vuex.Store({
         }
       }
     },
-    async createVoucherRequest({ commit, rootState, dispatch }, voucherRequest) {
+    async createSkillRequest(
+      { commit, rootState },
+      skillRequest
+    ) {
+      const url = "http://localhost:8080/skills/";
+      const headers = {
+        "Content-Type": "application/json",
+        Autorization: localStorage.getItem("token")
+      };
+      try {
+        const { data } = await axios.post(url, skillRequest, {
+          headers
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    async updateCertificationRequest(
+      { commit, rootState },
+      certificationRequest
+    ) {
+      const url = "http://localhost:8080/update-certificate";
+      const headers = {
+        "Content-Type": "application/json",
+        Autorization: localStorage.getItem("token")
+      };
+      try {
+        const { data } = await axios.post(url, certificationRequest, {
+          headers
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    async updateSkillRequest(
+      { commit, rootState },
+      skillRequest
+    ) {
+      const url = "http://localhost:8080/update-skill";
+      const headers = {
+        "Content-Type": "application/json",
+        Autorization: localStorage.getItem("token")
+      };
+      try {
+        const { data } = await axios.post(url, skillRequest, {
+          headers
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    // async createVoucherRequest({ commit, rootState, dispatch }, voucherRequest) {
+    //   const url = "http://localhost:8080/voucherRequest/";
+    //   const token = JSON.parse(localStorage.getItem("token") || '{}');
+
+    // const url = "http://localhost:8080/vouchers/";
+    //   const headers = {
+    //     "Content-Type": "application/json",
+    //     Autorization: localStorage.getItem("token")
+    //   };
+    async createVoucherRequest({ commit, rootState }, voucherRequest) {
       const url = "http://localhost:8080/voucherRequest/";
       const token = JSON.parse(localStorage.getItem("token") || '{}');
       try {
@@ -233,7 +300,6 @@ export default new Vuex.Store({
         }
       }
     },
-
     async assignVoucherToUserRequest({ commit, rootState }, voucherUserRequest) {
       const url = "http://localhost:8080/voucher/" + voucherUserRequest.voucherId + "/user/" + voucherUserRequest.userId;
       const token = JSON.parse(localStorage.getItem("token") || '{}');

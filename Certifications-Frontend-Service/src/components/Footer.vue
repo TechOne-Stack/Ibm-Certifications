@@ -1,5 +1,9 @@
 <template>
-  <v-footer dark>{{ new Date().getFullYear() }} Java Academy</v-footer>
+  <v-footer dark
+    >{{ new Date().getFullYear() }} Java Academy
+    <v-spacer />
+    TechONE Stack
+  </v-footer>
 </template>
 
 <script>
