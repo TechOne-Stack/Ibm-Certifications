@@ -83,7 +83,7 @@
               <h1
                 class="text-4xl sm:text-5xl md:text-7xl font-bold text-gray-200 mt-3"
               >
-                <h1 class="text-center">Available Certifications</h1>
+                <h1 class="text-center">Available Vouchers</h1>
               </h1>
             </v-layout>
           </v-col>
