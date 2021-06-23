@@ -14,6 +14,7 @@ export default new Vuex.Store({
     vouchers: [],
     voucherDetailData: [],
     voucherDetailUserData: [],
+    listOfUsers: [],
   },
   mutations: {
     emailMutation(state, value) {
@@ -41,6 +42,9 @@ export default new Vuex.Store({
     },
     voucherDetailUserMutation(state, value) {
       state.voucherDetailUserData = value;
+    },
+    usersMutation(state, value) {
+      state.listOfUsers = value;
     }
   },
   getters: {
@@ -64,6 +68,9 @@ export default new Vuex.Store({
     },
     voucherDetailUserData(state: any) {
       return state.voucherDetailUserData;
+    },
+    listOfUsers(state: any) {
+      return state.listOfUsers;
     }
   },
   actions: {
@@ -91,7 +98,7 @@ export default new Vuex.Store({
       }
     },
     async createVoucherRequest({ commit, rootState }, voucherRequest) {
-      const url = "http://localhost:8080/vouchers/";
+      const url = "http://localhost:8080/voucherRequest/";
       const headers = {
         "Content-Type": "application/json",
         Autorization: localStorage.getItem("token")
@@ -103,7 +110,23 @@ export default new Vuex.Store({
       } catch (err) {
         console.log(err);
       }
+    },
+
+    async assignVoucherToUserRequest({ commit, rootState }, voucherUserRequest) {
+      const url = "http://localhost:8080/voucher/" + voucherUserRequest.voucherId + "/user/" + voucherUserRequest.userId;
+      const headers = {
+        "Content-Type": "application/json",
+        Autorization: localStorage.getItem("token")
+      };
+      try {
+        const { data } = await axios.post(url, voucherUserRequest, {
+          headers
+        });
+      } catch (err) {
+        console.log(err);
+      }
     }
+
   },
   modules: {}
 });

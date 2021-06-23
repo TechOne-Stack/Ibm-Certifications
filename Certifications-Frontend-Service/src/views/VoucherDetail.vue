@@ -121,7 +121,13 @@
             <div class="flex justify-between">
               <div class="my-2">
                 <p class="font-semibold text-base mb-2">Assigned Users</p>
-                <div class="flex space-x-2">
+                <div
+                  class="flex space-x-2"
+                  v-if="
+                    voucherDetailUserData !== undefined &&
+                      voucherDetailUserData != ''
+                  "
+                >
                   <v-icon>mdi-account</v-icon>
                   {{
                     voucherDetailUserData.name +
@@ -129,13 +135,16 @@
                       voucherDetailUserData.surname
                   }}
                 </div>
+                <div v-else>
+                  <h3>No User Assigned!</h3>
+                </div>
               </div>
             </div>
             <v-btn
               @click.stop="assignVoucherToUserDialog = true"
               color="success"
             >
-              Assign</v-btn
+              Choose User to assign</v-btn
             >
             <v-dialog
               v-model="assignVoucherToUserDialog"
@@ -147,23 +156,29 @@
                   Assign Voucher To User
                 </v-card-title>
                 <v-card-text>
-                  <v-form ref="assignVoucherToUserForm" v-model="valid">
+                  <v-form ref="assignUserForm">
                     <v-row>
                       <v-col cols="12">
-                        <v-text-field
-                          label="Name"
-                          :rules="nameRules"
-                          v-model="certificationName"
-                        ></v-text-field>
+                        <v-select
+                          v-model="selectedUser"
+                          :items="listOfUsers.users"
+                          item-text="surname"
+                          item-value="id"
+                          label="User"
+                        >
+                        </v-select>
                       </v-col>
                     </v-row>
                   </v-form>
                 </v-card-text>
                 <v-card-actions>
                   <v-spacer />
-                  <v-btn @click="closeAssignVoucherToUserForm" color="danger"
-                >Close</v-btn
-              >
+                  <v-btn @click="closeAssignVoucherToUserDialog" color="danger"
+                    >Close</v-btn
+                  >
+                  <v-btn @click="sendAssignUserDialog" color="success"
+                    >Assign</v-btn
+                  >
                 </v-card-actions>
               </v-card>
             </v-dialog>
@@ -192,6 +207,9 @@ export default {
     return {
       currentVoucher: {},
       assignVoucherToUserDialog: false,
+      selectedUser: 0,
+      users: {},
+      fullNames: [],
     };
   },
   created() {
@@ -200,34 +218,51 @@ export default {
     );
   },
   computed: {
-    ...mapGetters(["vouchers"]),
-    ...mapGetters(["voucherDetailData"]),
-    ...mapGetters(["voucherDetailUserData"]),
+    ...mapGetters([
+      "vouchers",
+      "voucherDetailData",
+      "voucherDetailUserData",
+      "listOfUsers",
+    ]),
   },
   async mounted() {
-    const voucherData = await axios.get(
-      "http://localhost:8080/vouchers/" +
-        this.currentVoucher.id +
-        "/certification"
-    );
-    console.log("Voucher Data: ");
-    console.log(voucherData.data);
-
-    const voucherUserData = await axios.get(
-      "http://localhost:8080/vouchers/" + this.currentVoucher.id + "/user"
-    );
-    console.log("User Data: ");
-    console.log(voucherUserData.data);
-
-    this.voucherDetailMutation(voucherData.data);
-    this.voucherDetailUserMutation(voucherUserData.data);
+    this.mountedMock();
   },
   methods: {
-    ...mapMutations(["voucherDetailMutation"]),
-    ...mapMutations(["voucherDetailUserMutation"]),
-    closeAssignVoucherToUserForm() {
+    ...mapMutations([
+      "voucherDetailMutation",
+      "voucherDetailUserMutation",
+      "usersMutation",
+    ]),
+    async mountedMock() {
+      const voucherData = await axios.get(
+        "http://localhost:8080/vouchers/" +
+          this.currentVoucher.id +
+          "/certification"
+      );
+
+      const voucherUserData = await axios.get(
+        "http://localhost:8080/vouchers/" + this.currentVoucher.id + "/user"
+      );
+
+      const users = await axios.get("http://localhost:8080/users/");
+
+      this.voucherDetailMutation(voucherData.data);
+      this.voucherDetailUserMutation(voucherUserData.data);
+      this.usersMutation(users.data._embedded);
+    },
+
+    closeAssignVoucherToUserDialog() {
       this.assignVoucherToUserDialog = false;
-    }
+    },
+    sendAssignUserDialog() {
+      this.$store.dispatch("assignVoucherToUserRequest", {
+        userId: this.selectedUser,
+        voucherId: this.currentVoucher.id,
+      });
+      this.mountedMock();
+      this.closeAssignVoucherToUserDialog();
+    },
   },
 };
 </script>

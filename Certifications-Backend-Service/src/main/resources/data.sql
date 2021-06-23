@@ -2,7 +2,7 @@ insert into Certification(id,name,url,price) values (10000,'My certification','c
 insert into Certification(id,name,url, price, createdBy, createdDate, lastModifiedBy, lastModifiedDate, version) values (10001,'Java 11','https://oracle.com', 200.50, 'Thats me', sysdate, 'Thats me', sysdate, 0);
 
 
-insert into certification(id,name,url, price, version) values (10003,'Spring Boot','https://spring.io', null,0);
+insert into certification(id,name,url, price, version) values (10003,'Spring Boot','https://spring.io', 44,0);
 insert into certification(id,name,url, price, version) values (10004,'SAP Admin','https://spa.com', null,0);	
 insert into certification(id,name,url, price, version) values (10005,'Oracle 12c Admin','https://oracle.com', 200,0);
 
@@ -16,7 +16,7 @@ insert into user(id,name,surname,email) values (10014,'Zac','Klop','zklop@tesla.
 
 --voucher
 insert into voucher(id,state,vouchercode,validUntil,certification_id) values (10020,'NEW','VC1234',sysdate,10001);
-insert into voucher(id,state,vouchercode,validUntil,certification_id, user_id) values (10021,'NEW','VC1235',sysdate,10003, 10011);
+insert into voucher(id,state,vouchercode,validUntil,certification_id) values (10021,'NEW','VC1235',sysdate,10003);
 
 --skill
 insert into skill(id,name,desc) values (20001, 'Java 11 developer','Java 11 developer');

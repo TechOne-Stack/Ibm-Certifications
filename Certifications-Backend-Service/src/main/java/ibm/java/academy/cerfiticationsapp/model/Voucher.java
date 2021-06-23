@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -17,14 +19,17 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import javax.persistence.SequenceGenerator;
 
 
 @NoArgsConstructor
 @Data
 @Entity
+@SequenceGenerator(name="seqVoucher", sequenceName="h2seqVoucher",  initialValue=1500, allocationSize=10)
 public class Voucher {
     
     @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seqVoucher")
     private Long id;
 	
 	@Enumerated(EnumType.STRING)
@@ -47,7 +52,7 @@ public class Voucher {
     @JsonBackReference
     private Certification certification;
 
-    enum State {
+    public enum State {
         ACTIVE, PROPOSED, NEW
     }
 
