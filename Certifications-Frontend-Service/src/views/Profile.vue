@@ -8,14 +8,14 @@
     <v-divider />
     <v-row>
       <v-layout align-center justify-center>
-        <v-flex md4 sm8 xs12 style="padding-top: 2em">
+        <v-flex md4 sm8 xs12 style="padding-top: 0.5em">
           <flash-message class="myCustomClass"></flash-message>
         </v-flex>
       </v-layout>
     </v-row>
-    <v-row>
+    <v-row style="margin-bottom: 3rem;">
       <v-layout align-center justify-center>
-        <v-flex md4 sm8 xs12 style="padding-top: 2em">
+        <v-flex md4 sm8 xs12 style="padding-top: 5em">
           <v-card class="elevation-12">
             <v-card-text>
               <p>Your credentials</p>
@@ -49,65 +49,36 @@
     </v-row>
     <v-row>
       <v-col cols="12" style="padding-top: 1em">
-        <v-btn @click.stop="newCertificationDialog = true" color="primary"
-          >New Certification Request
-        </v-btn>
-        <v-dialog v-model="newCertificationDialog" persistent max-width="600px">
-          <v-card>
-            <v-card-title>
-              New Certification Request
-            </v-card-title>
-            <v-card-text>
-              <v-form ref="newCertificationForm" v-model="valid">
-                <v-row>
-                  <v-col cols="12">
-                    <v-text-field
-                      label="Name"
-                      :rules="nameRules"
-                      v-model="certificationName"
-                    ></v-text-field>
-                  </v-col>
-                </v-row>
-                <v-row>
-                  <v-col cols="6">
-                    <v-text-field
-                      label="Price"
-                      v-model="certificationPrice"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="6">
-                    <v-text-field
-                      label="Currency"
-                      :rules="currencyRules"
-                      v-model="certificationCurrency"
-                    ></v-text-field>
-                  </v-col>
-                </v-row>
-                <v-row>
-                  <v-col cols="12">
-                    <v-text-field
-                      label="Url"
-                      :rules="urlRules"
-                      v-model="certificationUrl"
-                    ></v-text-field>
-                  </v-col>
-                </v-row>
-              </v-form>
-            </v-card-text>
-            <v-card-actions>
-              <v-spacer />
-              <v-btn @click="closeNewCertificationDialog" color="danger"
-                >Close</v-btn
-              >
-              <v-btn
-                :disabled="!valid"
-                @click="sendNewCertificationDialog"
-                color="success"
-                >Send</v-btn
-              >
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
+        <h1>Your vouchers</h1>
+        <div v-if="usersVouchers !== undefined && usersVouchers.length > 0">
+          <v-simple-table>
+            <template v-slot:default>
+              <thead>
+                <tr>
+                  <th class="text-center">
+                    STATE
+                  </th>
+                  <th class="text-center">
+                    VALIDUNTIL
+                  </th>
+                  <th class="text-center">
+                    VOUCHERCODE
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="voucher in usersVouchers" :key="voucher.id">
+                  <td>{{ voucher.state }}</td>
+                  <td>{{ voucher.validUntil }}</td>
+                  <td>{{ voucher.voucherCode }}</td>
+                </tr>
+              </tbody>
+            </template>
+          </v-simple-table>
+        </div>
+        <div v-else>
+          <h3>No vouchers found</h3>
+        </div>
       </v-col>
     </v-row>
   </div>
@@ -171,9 +142,10 @@ export default {
     this.userFirstName = user.firstname;
     this.userSurName = user.surname;
     this.userEmail = user.email;
+    this.$store.dispatch("loadUsersVouchers");
   },
   computed: {
-    ...mapGetters(["updateSuccess", "certificateSuccess"])
+    ...mapGetters(["updateSuccess", "certificateSuccess", "usersVouchers"])
   },
   watch: {
     updateSuccess() {
