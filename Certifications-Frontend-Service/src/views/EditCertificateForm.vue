@@ -4,11 +4,13 @@
       <v-flex md6 sm8 xs12>
         <v-row>
           <v-col cols="12">
-            <h1
-              class="text-4xl sm:text-5xl md:text-7xl font-bold text-gray-200 mb-5 mx-9"
-            >
-              Edit Certification
-            </h1>
+            <v-layout align-center justify-center>
+              <h1
+                class="text-4xl sm:text-5xl md:text-7xl font-bold text-gray-200 mb-5"
+              >
+                Edit Certification
+              </h1>
+            </v-layout>
             <v-card style="border-radius:25px;">
               <div
                 class=" text-white flex items-center absolute py-4 px-4 shadow-xl bg-green-500 left-4 -top-6"
@@ -43,14 +45,14 @@
                     </v-col>
                   </v-row>
                   <v-row>
-                    <v-col cols="6" class="py-0">
+                    <v-col cols="12" md="6" xs="12" class="py-0">
                       <v-text-field
                         label="Price"
                         v-model="certificationPrice"
                         prepend-icon="mdi-cash-multiple"
                       ></v-text-field>
                     </v-col>
-                    <v-col cols="6" class="py-0">
+                    <v-col cols="12" md="6" xs="12" class="py-0">
                       <v-text-field
                         label="Currency"
                         :rules="currencyRules"

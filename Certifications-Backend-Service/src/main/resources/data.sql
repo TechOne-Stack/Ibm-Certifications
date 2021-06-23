@@ -1,4 +1,4 @@
-insert into Certification(id,name,url,price) values (10000,'My certification','cert@ibm.com',200.50);
+insert into Certification(id,name,url,price, version) values (10000,'My certification','cert@ibm.com',200.50, 0);
 insert into Certification(id,name,url, price, createdBy, createdDate, lastModifiedBy, lastModifiedDate, version) values (10001,'Java 11','https://oracle.com', 200.50, 'Thats me', sysdate, 'Thats me', sysdate, 0);
 
 

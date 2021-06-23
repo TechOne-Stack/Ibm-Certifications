@@ -1,12 +1,15 @@
 <template>
   <div class="card-padding">
-    <v-card width="300">
+    <v-card width="300" elevation="12" style="border: 0;">
       <v-img
         class="white--text align-end"
         height="120px"
-        :src="'https://picsum.photos/id/' + this.imageLink + '/400/400'"
+        src="https://picsum.photos/id/20/400/400"
       >
-        <v-card-title>{{ certification.name }}</v-card-title>
+        <v-card-title
+          style="color:#2d4a79; text-shadow: rgb(154 141 141) 1px 1px;"
+          >{{ certification.name }}</v-card-title
+        >
       </v-img>
       <div class="card-text-fix">
         <v-card-text class="align-end fill-height">
@@ -17,6 +20,7 @@
             :to="'/edit-certificate-form/' + certification.id"
             tag="span"
             class="pointerClass"
+            style="float:RIGHT;"
           >
             <v-btn color="danger">
               <span>EDIT</span>
@@ -31,24 +35,10 @@
 
 <script>
 export default {
-  data() {
-    return {
-      imageLink: ""
-    };
-  },
   props: {
     certification: {
       type: Object,
       require: true
-    }
-  },
-  created() {
-    if (this.certification.name.toLocaleLowerCase().includes("javascript")) {
-      this.imageLink = "119";
-    } else if (this.certification.name.toLocaleLowerCase().includes("java")) {
-      this.imageLink = "1060";
-    } else {
-      this.imageLink = "20";
     }
   }
 };
@@ -59,6 +49,6 @@ export default {
   padding: 30px;
 }
 .card-text-fix {
-  height: 50px;
+  height: 60px;
 }
 </style>

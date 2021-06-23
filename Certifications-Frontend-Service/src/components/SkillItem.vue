@@ -1,11 +1,11 @@
 <template>
   <div class="card-padding">
-    <v-card width="300">
+    <v-card width="300" elevation="12" style="border: 0;">
       <v-card-title
         ><span class="mx-auto">{{ skill.name }}</span></v-card-title
       >
       <div class="card-text-fix">
-        <v-card-text class="align-end fill-height">
+        <v-card-text class="align-end fill-height text-center">
           <strong>
             {{ skill.description }}
           </strong>
@@ -17,12 +17,12 @@
           tag="span"
           class="pointerClass"
         >
-          <v-btn color="danger" class="mr-2">
+          <v-btn color="danger" class="mr-2 mb-2">
             <span>EDIT</span>
             <v-icon>mdi-pencil</v-icon>
           </v-btn>
         </router-link>
-        <v-btn color="danger" class="ml-2">
+        <v-btn color="danger" class="ml-2 mb-2">
           <span>DELETE</span>
           <v-icon>mdi-trash-can-outline</v-icon>
         </v-btn>

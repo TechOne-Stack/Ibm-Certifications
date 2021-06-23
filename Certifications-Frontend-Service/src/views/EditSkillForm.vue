@@ -4,12 +4,14 @@
       <v-flex md6 sm8 xs12>
         <v-row>
           <v-col cols="12">
-            <h1
-              class="text-4xl sm:text-5xl md:text-7xl font-bold text-gray-200 mb-7 mx-9"
-            >
-              Edit Certification
-            </h1>
-            <v-card>
+            <v-layout align-center justify-center>
+              <h1
+                class="text-4xl sm:text-5xl md:text-7xl font-bold text-gray-200 mb-7"
+              >
+                Edit Skill
+              </h1>
+            </v-layout>
+            <v-card style="border-radius:25px;">
               <div
                 class=" text-white flex items-center absolute py-4 px-4 shadow-xl bg-green-500 left-4 -top-6"
                 style="border-radius:50%"
@@ -59,9 +61,11 @@
                   tag="span"
                   class="pointerClass mx-3"
                 >
-                <v-btn color="danger">Close</v-btn>
+                  <v-btn color="danger">Close</v-btn>
                 </router-link>
-                <v-btn color="success" @click="sendUpdatedSkill">Send</v-btn>
+                <v-btn color="success" @click="sendUpdatedSkill" class="mr-3"
+                  >Send</v-btn
+                >
               </v-card-actions>
             </v-card>
           </v-col>
@@ -74,22 +78,24 @@
 <script>
 import Vue from "vue";
 import { mapGetters } from "vuex";
+import axios from "axios";
 
 export default Vue.extend({
   name: "EditSkill",
   data() {
     return {
-      currentSkill: {},
+      currentSkillId: 0,
       skillName: "",
       skillDescription: ""
     };
   },
-  created() {
-    this.currentSkill = this.skills.find(
-      ({ id }) => id == this.$route.params.id
+  async created() {
+    const { data } = await axios.get(
+      "http://localhost:8080/skills/" + this.$route.params.id
     );
-    this.skillName = this.currentSkill.name;
-    this.skillDescription = this.currentSkill.description;
+    this.skillName = data.name;
+    this.skillDescription = data.description;
+    this.currentSkillId = data.id;
   },
   computed: {
     ...mapGetters(["skills"])
@@ -97,10 +103,12 @@ export default Vue.extend({
   methods: {
     sendUpdatedSkill() {
       this.$store.dispatch("updateSkillRequest", {
-        id: this.currentSkill.id,
+        id: this.currentSkillId,
         name: this.skillName,
         description: this.skillDescription
       });
+      this.skillName = "";
+      this.skillDescription = "";
       this.$router.push({ name: "SkillsOverview" });
     }
   }

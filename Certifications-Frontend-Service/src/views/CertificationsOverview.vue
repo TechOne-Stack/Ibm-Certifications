@@ -1,23 +1,35 @@
 <template>
-  <div class="home">
+  <div class="home bg-gradient-to-t from-blue-200 to-indigo-900">
     <v-row>
       <v-col cols="12">
-        <h1>Available Certifications</h1>
         <div v-if="certifications !== undefined && certifications.length > 0">
           <v-row>
-            <router-link
-              v-for="certification in certifications"
-              :key="certification.id"
-              :to="'/certificationDetail/' + certification.id"
-              tag="div"
-            >
-              <v-col>
-                <CertificationItem
-                  style="cursor: pointer"
-                  :certification="certification"
-                />
-              </v-col>
-            </router-link>
+            <v-col cols="12">
+              <v-layout align-center justify-center>
+                <h1
+                  class="text-4xl sm:text-5xl md:text-7xl font-bold text-gray-200 mt-3"
+                >
+                  <h1 class="text-center">Available Certifications</h1>
+                </h1>
+              </v-layout>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col>
+              <v-layout d-flex flex-wrap justify-space-around>
+                <router-link
+                  v-for="certification in certifications"
+                  :key="certification.id"
+                  :to="'/certificationDetail/' + certification.id"
+                  tag="div"
+                >
+                  <CertificationItem
+                    style="cursor: pointer"
+                    :certification="certification"
+                  />
+                </router-link>
+              </v-layout>
+            </v-col>
           </v-row>
         </div>
         <div v-else>

@@ -1,24 +1,39 @@
 <template>
-  <div class="home">
+  <div class="home bg-gradient-to-t from-blue-200 to-indigo-900">
     <v-row>
       <v-col cols="12">
         <v-flex justify-center>
-          <v-btn @click.stop="newSkillDialog = true" color="primary" class="my-3"
+          <v-btn
+            @click.stop="newSkillDialog = true"
+            color="primary"
+            class="my-3"
             >Add New Skill
           </v-btn>
         </v-flex>
         <div v-if="this.skills !== undefined && this.skills.length > 0">
           <v-row>
+            <v-col cols="12">
+              <v-layout align-center justify-center>
+                <h1
+                  class="text-4xl sm:text-5xl md:text-7xl font-bold text-gray-200"
+                >
+                  <h1 class="text-center">Available Skills</h1>
+                </h1>
+              </v-layout>
+            </v-col>
+          </v-row>
+          <v-row>
             <v-col>
-              <h1 class="text-center">Available Skills</h1>
-              <div v-for="skill in this.skills" tag="div" :key="skill.id">
-                <SkillItem :skill="skill" />
-              </div>
+              <v-layout d-flex flex-wrap justify-space-between>
+                <div v-for="skill in this.skills" tag="div" :key="skill.id">
+                  <SkillItem :skill="skill" />
+                </div>
+              </v-layout>
             </v-col>
           </v-row>
         </div>
         <div v-else>
-          <h3>No certifications found</h3>
+          <h3>No Skills Found</h3>
         </div>
         <v-dialog v-model="newSkillDialog" persistent max-width="600px">
           <v-card>
