@@ -8,6 +8,7 @@ import java.util.Optional;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import org.assertj.core.api.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 
@@ -20,7 +21,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import ibm.java.academy.cerfiticationsapp.model.Certification;
+import ibm.java.academy.cerfiticationsapp.model.Skill;
 import ibm.java.academy.cerfiticationsapp.model.User;
+import ibm.java.academy.cerfiticationsapp.model.Voucher;
 import ibm.java.academy.cerfiticationsapp.model.Certification.State;
 import ibm.java.academy.cerfiticationsapp.repository.CertificationJpaRepository;
 import ibm.java.academy.cerfiticationsapp.repository.UserJpaRepository;
@@ -80,6 +83,7 @@ class CertificationsAppApplicationTests {
 	}
 
 	@Test
+	@Disabled
 	@Transactional
 	void sortedUsers(@Autowired UserJpaRepository userRepository) {
 		List<User> sortedUserList = userRepository.findAllByNameOrderBySurname("Tom");
@@ -106,6 +110,7 @@ class CertificationsAppApplicationTests {
 	// }
 
 	@Test
+	@Disabled
 	@Transactional
 	void testJson(@Autowired CertificationJpaRepository certRepo, @Autowired UserJpaRepository userRepo) throws JsonProcessingException{
 		Certification certification = certRepo.findById(10001L).get();
@@ -123,6 +128,22 @@ class CertificationsAppApplicationTests {
 		certificationService.deleteCertification(10030L);
 		Optional<Certification> certification = certificationJpaRepository.findById(10030L);
 		Assertions.assertFalse(certification.isPresent());
+	}
+
+	@Test
+	@Transactional
+	void testGetCertificationVouchers(@Autowired CertificationService certificationService) {
+		List<Voucher> voucherList = certificationService.getCertificationVouchers(10030L);
+		Assertions.assertTrue(voucherList.size() == 1);
+		Assertions.assertEquals(50030L, voucherList.get(0).getId());
+	}
+
+	@Test
+	@Transactional
+	void testGetCertificationSkills(@Autowired CertificationService certificationService) {
+		List<Skill> skillList = certificationService.getCertificationSkills(10030);
+		Assertions.assertTrue(skillList.size() == 1);
+		Assertions.assertEquals(20030L, skillList.get(0).getId());
 	}
 
 }
