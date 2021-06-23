@@ -46,9 +46,15 @@ export default Vue.extend({
     if (this.loggedIn == false) {
       this.$router.push("/login");
     }
-    const { data } = await axios.get("http://localhost:8080/certifications");
+    const token = JSON.parse(localStorage.getItem("token"));
+    const { data } = await axios.get("http://localhost:8080/certifications", {
+      headers: {
+        Authorization: 'Bearer ' + token 
+      }
+    });
     console.log(data);
     this.certificationsMutation(data._embedded.certifications);
+    console.log(data._embedded.certifications);
   },
   methods: {
     ...mapMutations(["certificationsMutation"])

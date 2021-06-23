@@ -4,8 +4,10 @@ import router from "./router";
 import store from "./store";
 import vuetify from "./plugins/vuetify";
 import "./assets/tailwind.css";
+const VuexFlash = require("vuex-flash");
 
 Vue.config.productionTip = false;
+Vue.use(VuexFlash, { mixin: true });
 
 new Vue({
   router,

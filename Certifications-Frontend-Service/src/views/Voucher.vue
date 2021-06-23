@@ -145,11 +145,26 @@ export default {
       "certificationsMutation",
     ]),
     async mountedMock() {
-      const { data } = await axios.get("http://localhost:8080/vouchers");
-      const users = await axios.get("http://localhost:8080/users/");
+      const token = JSON.parse(localStorage.getItem("token"));
+      const { data } = await axios.get("http://localhost:8080/vouchers", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: 'Bearer ' + token 
+      }
+    });
+      const users = await axios.get("http://localhost:8080/users/", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: 'Bearer ' + token 
+      }
+    });
       const certificationData = await axios.get(
-        "http://localhost:8080/certifications/"
-      );
+        "http://localhost:8080/certifications/", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: 'Bearer ' + token 
+      }
+    });
       this.certificationsMutation(
         certificationData.data._embedded.certifications
       );

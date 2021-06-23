@@ -5,6 +5,12 @@
     </router-link>
     <v-spacer />
 
+    <div v-if="admin" class="adminHeader">
+      <router-link to="/all-users" tag="span" class="pointerClass">
+        <h2>IBM@Users</h2>
+      </router-link>
+    </div>
+
     <router-link to="/voucher" tag="span" class="pointerClass">
       <h2>IBM@Vouchers</h2>
     </router-link>
@@ -25,14 +31,21 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "Header",
   methods: {
     logout() {
       this.$store.commit("loggedInMutation", false);
       localStorage.removeItem("loggedIn");
+      localStorage.removeItem("user");
+      localStorage.removeItem("token");
+      localStorage.removeItem("admin");
       location.reload();
     }
+  },
+  computed: {
+    ...mapGetters(["admin"])
   }
 };
 </script>
@@ -40,5 +53,8 @@ export default {
 <style scoped>
 .pointerClass {
   cursor: pointer;
+}
+.adminHeader {
+  margin-right: 10%;
 }
 </style>
