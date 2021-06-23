@@ -14,6 +14,78 @@
               </v-layout>
             </v-col>
           </v-row>
+          <v-flex justify-center>
+            <v-btn
+              @click.stop="newCertificationDialog = true"
+              color="primary"
+              class="my-3"
+              >New Certification
+            </v-btn>
+          </v-flex>
+          <v-dialog
+            v-model="newCertificationDialog"
+            persistent
+            max-width="600px"
+          >
+            <v-card>
+              <v-card-title>
+                New Certification Request
+              </v-card-title>
+              <v-card-text>
+                <v-form ref="newCertificationForm" v-model="valid">
+                  <v-row>
+                    <v-col cols="12">
+                      <v-text-field
+                        label="Name"
+                        :rules="nameRules"
+                        v-model="certificationName"
+                        prepend-icon="mdi-certificate-outline"
+                      ></v-text-field>
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col cols="12" md="6" xs="12" class="py-0">
+                      <v-text-field
+                        label="Price"
+                        v-model="certificationPrice"
+                        prepend-icon="mdi-cash-multiple"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" md="6" xs="12" class="py-0">
+                      <v-text-field
+                        label="Currency"
+                        :rules="currencyRules"
+                        v-model="certificationCurrency"
+                        prepend-icon="mdi-currency-eur"
+                      ></v-text-field>
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col cols="12">
+                      <v-text-field
+                        label="Url"
+                        :rules="urlRules"
+                        v-model="certificationUrl"
+                        prepend-icon="mdi-web"
+                      ></v-text-field>
+                    </v-col>
+                  </v-row>
+                </v-form>
+              </v-card-text>
+              <v-card-actions>
+                <v-spacer />
+                <v-btn @click="closeNewCertificationDialog" color="danger"
+                  >Close</v-btn
+                >
+                <v-btn
+                  :disabled="!valid"
+                  @click="sendNewCertificationDialog"
+                  color="success"
+                  >Send</v-btn
+                >
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
           <v-row>
             <v-col>
               <v-layout d-flex flex-wrap justify-space-around>
@@ -48,6 +120,19 @@ import axios from "axios";
 
 export default Vue.extend({
   name: "Home",
+  data() {
+    return {
+      valid: true,
+      newCertificationDialog: false,
+      certificationName: "",
+      certificationPrice: 0,
+      certificationCurrency: "",
+      certificationUrl: "",
+      nameRules: [v => !!v || "Name is required!"],
+      currencyRules: [v => !!v || "Currency is required!"],
+      urlRules: [v => !!v || "Url is required!"]
+    };
+  },
   components: {
     CertificationItem
   },
@@ -63,7 +148,23 @@ export default Vue.extend({
     this.certificationsMutation(data._embedded.certifications);
   },
   methods: {
-    ...mapMutations(["certificationsMutation"])
+    ...mapMutations(["certificationsMutation"]),
+    closeNewCertificationDialog() {
+      this.newCertificationDialog = false;
+      this.certificationName = "";
+      this.certificationPrice = 0;
+      this.certificationCurrency = "";
+      this.certificationUrl = "";
+    },
+    sendNewCertificationDialog() {
+      this.$store.dispatch("createCertificationRequest", {
+        name: this.certificationName,
+        currency: this.certificationCurrency,
+        price: this.certificationPrice,
+        url: this.certificationUrl
+      });
+      this.closeNewCertificationDialog();
+    }
   }
 });
 </script>

@@ -2,14 +2,6 @@
   <div class="home bg-gradient-to-t from-blue-200 to-indigo-900">
     <v-row>
       <v-col cols="12">
-        <v-flex justify-center>
-          <v-btn
-            @click.stop="newSkillDialog = true"
-            color="primary"
-            class="my-3"
-            >Add New Skill
-          </v-btn>
-        </v-flex>
         <div v-if="this.skills !== undefined && this.skills.length > 0">
           <v-row>
             <v-col cols="12">
@@ -17,11 +9,19 @@
                 <h1
                   class="text-4xl sm:text-5xl md:text-7xl font-bold text-gray-200"
                 >
-                  <h1 class="text-center">Available Skills</h1>
+                  <h1 class="text-center mt-3">Available Skills</h1>
                 </h1>
               </v-layout>
             </v-col>
           </v-row>
+          <v-flex justify-center>
+            <v-btn
+              @click.stop="newSkillDialog = true"
+              color="primary"
+              class="my-3"
+              >Add New Skill
+            </v-btn>
+          </v-flex>
           <v-row>
             <v-col>
               <v-layout d-flex flex-wrap justify-space-between>

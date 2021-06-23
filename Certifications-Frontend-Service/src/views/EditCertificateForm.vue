@@ -130,6 +130,7 @@ export default {
   name: "EditCertification",
   data() {
     return {
+      benched: 1,
       valid: true,
       currentCertification: {},
       certificationName: "",
