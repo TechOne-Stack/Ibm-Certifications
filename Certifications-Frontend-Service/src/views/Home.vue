@@ -53,8 +53,7 @@ export default Vue.extend({
       }
     });
     console.log(data);
-    this.certificationsMutation(data._embedded.certifications);
-    console.log(data._embedded.certifications);
+    this.certificationsMutation(data);
   },
   methods: {
     ...mapMutations(["certificationsMutation"])
