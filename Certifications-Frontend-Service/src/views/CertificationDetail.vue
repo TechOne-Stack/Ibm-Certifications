@@ -74,16 +74,18 @@
                   />
                 </g>
               </svg>
-              <p>{{ currentCertification.price }}</p>
+              <p>{{ currentCertification.price }} {{ currentCertification.currency }}</p>
             </div>
             <div class="border-t-2"></div>
             <div class="flex items-center justify-center h-auto p-5">
               <div class="container">
-
+                <p>Skills learned with this certification:</p>
                 <div class="flex justify-center">
+                  
                   <div class="bg-white shadow-xl rounded-lg w-1/2">
+                  
                     <ul class="divide-y divide-gray-300">
-                      <li v-for="skill in certificationSkills" :key="skill" class="p-4 hover:bg-gray-50 cursor-pointer">
+                      <li v-for="skill in certificationSkills" :key="skill.name" class="p-4 hover:bg-gray-50 cursor-pointer">
                         {{skill.name}}
                       </li>
                     </ul>
@@ -112,19 +114,20 @@
               </svg>
               <div class="flex flex-col ml-3">
                 <div class="font-medium leading-none">Delete certification Acccount ?</div>
-                <p class="text-sm text-gray-600 leading-none mt-1">
-                </p>
+
               </div>
             </div>
             <v-btn @click="deleteCertification" mat-icon-button="" color="danger" class="flex-no-shrink bg-red-500 px-5 ml-4 py-2 text-sm shadow-sm hover:shadow-lg font-medium tracking-wider border-2 border-red-500 text-white rounded-full">Delete</v-btn>
-            <v-btn @click="deleteCertificationDialog = false"  mat-icon-button="" class="flex-no-shrink bg-red-500 px-5 ml-4 py-2 text-sm shadow-sm hover:shadow-lg font-medium tracking-wider border-2 border-red-500 text-white rounded-full">Cancel</v-btn>
-            <div class="flex items-center justify-center h-auto p-5">
+            <v-btn @click="deleteCertificationDialog = false"  mat-icon-button="" class="flex-no-shrink bg-red-500 px-5 ml-4 py-2 text-sm shadow-sm hover:shadow-lg font-medium tracking-wider border-2 border-red-500 text-white rounded-full">Cancel</v-btn>          
+            <div v-if="true" class="flex items-center justify-center h-auto p-5">
+                <p class="text-sm text-gray-600 leading-none mt-1" >
+                  When you delete this certification, following voucher will be deleted as well:
+                </p>              
               <div class="container">
-
                 <div class="flex justify-center">
                   <div class="bg-white shadow-xl rounded-lg w-1/2">
                     <ul class="divide-y divide-gray-300">
-                      <li v-for="voucher in certificationVouchers" :key="voucher" class="p-4 hover:bg-gray-50 cursor-pointer">
+                      <li v-for="voucher in certificationVouchers" :key="voucher.voucherCode" class="p-4 hover:bg-gray-50 cursor-pointer">
                         {{voucher.voucherCode}}
                       </li>
                     </ul>
@@ -168,6 +171,10 @@ export default {
     ...mapGetters(["certifications"]),
     certificationHasState() {
       return this.currentCertification.state != null;
+    },
+    hasAffectedVouchers() {
+      return this.currentCertification.certificationVouchers != null && 
+            this.currentCertification.certificationVouchers.length != 0;
     }
   },
   methods: {
@@ -175,11 +182,14 @@ export default {
       if (Object.keys(this.currentCertification) === 0) {
         return;
       }
+      const token = JSON.parse(localStorage.getItem("token"));
       const url = "http://localhost:8080/certifications/" + this.currentCertification.id
-      console.log(url)
       try {
-        const { data } =  await axios.delete(url);
-        console.log(url)
+        const { data } =  await axios.delete(url, {
+          headers: {
+            Authorization: 'Bearer ' + token 
+          }
+        });
         this.currentCertification = {};
         this.$router.push("/");
       } catch (error) {
@@ -187,9 +197,14 @@ export default {
       }
     },
     async fetchSkills() {
+      const token = JSON.parse(localStorage.getItem("token"));
       const url = "http://localhost:8080/certifications/" + this.currentCertification.id + "/skills/";
       try {
-        const { data } = await axios.get(url);
+        const { data } = await axios.get(url, {
+          headers: {
+            Authorization: 'Bearer ' + token 
+          }
+        });
         this.certificationSkills = data;
       } catch (error) {
         console.log(error);
@@ -197,12 +212,19 @@ export default {
     },
 
     async fetchVouchers() {
+      const token = JSON.parse(localStorage.getItem("token"));
       const url = "http://localhost:8080/certifications/" + this.currentCertification.id + "/vouchers"
-      console.log(url)
       try {
-        const { data } = await axios.get(url);
+        const { data } = await axios.get(url, {
+          headers: {
+            Authorization: 'Bearer ' + token 
+          }
+        });          
         this.certificationVouchers =  data;
         console.log(data);
+        if (this.hasAffectedVouchers) {
+            console.log("has vouchers");
+        }
       } catch (error) {
         console.log(error);
       }

@@ -10,8 +10,8 @@ insert into certification(id,name,url, price, version) values (10005,'Oracle 12c
 insert into certification(id,name,url,price, version) values (10030,'Delete certification','delete@ibm.com',200.50, 0);
 insert into skill(id,name,desc) values (20030, 'Python developer','Python developer');
 insert into certification_skill(certification_id, skill_id) values (10030,20030);
-insert into user(id,name,surname,email) values (10030,'Should','Remain','remain@ibm.com');
-insert into voucher(id,state,vouchercode,validUntil, certification_id, user_id) values (50030,'NEW','DELETE',sysdate,10030, 10030);
+--insert into user(id,name,surname,email) values (10030,'Should','Remain','remain@ibm.com');
+--insert into voucher(id,state,vouchercode,validUntil, certification_id, user_id) values (50030,'NEW','DELETE',sysdate,10030, 10030);
 
 insert into certification(id,name,url, price, version) values (h2seq.nextval,'Spring','https://spring.io', 100.50,0);
 
