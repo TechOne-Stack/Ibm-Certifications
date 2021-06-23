@@ -2,10 +2,15 @@
   <div>
     <v-row>
       <v-col cols="12">
-        <h1>Your Profile</h1>
+        <v-layout align-center justify-center>
+          <h1
+            class="text-4xl sm:text-5xl md:text-7xl font-bold text-gray-200 mt-3"
+          >
+            <h1 class="text-center">Your Profile</h1>
+          </h1>
+        </v-layout>
       </v-col>
     </v-row>
-    <v-divider />
     <v-row>
       <v-layout align-center justify-center>
         <v-flex md4 sm8 xs12 style="padding-top: 0.5em">
@@ -15,69 +20,109 @@
     </v-row>
     <v-row style="margin-bottom: 3rem;">
       <v-layout align-center justify-center>
-        <v-flex md4 sm8 xs12 style="padding-top: 5em">
-          <v-card class="elevation-12">
-            <v-card-text>
-              <p>Your credentials</p>
-              <v-form ref="updateForm" v-model="validForm">
-                <v-text-field
-                  prepend-icon="mdi-account"
-                  label="Enter your first name"
-                  type="text"
-                  v-model="userFirstName"
-                ></v-text-field>
-                <v-text-field
-                  prepend-icon="mdi-account"
-                  label="Enter your surname"
-                  type="text"
-                  v-model="userSurName"
-                ></v-text-field>
-              </v-form>
-            </v-card-text>
-            <v-card-actions>
-              <v-btn
-                :disabled="!validForm"
-                @click="sendUpdateRequest"
-                class="success"
-              >
-                Update your profile</v-btn
-              >
-            </v-card-actions>
-          </v-card>
-        </v-flex>
+        <v-row>
+          <v-col cols="12">
+            <v-layout align-center justify-center>
+              <v-card class="elevation-12 p-4">
+                <v-card-text>
+                  <h2 class="text-center text-3xl font-bold my-4">
+                    Your credentials
+                  </h2>
+
+                  <v-form ref="updateForm" v-model="validForm">
+                    <v-text-field
+                      prepend-icon="mdi-account"
+                      label="Enter your first name"
+                      type="text"
+                      v-model="userFirstName"
+                    ></v-text-field>
+                    <v-text-field
+                      prepend-icon="mdi-account"
+                      label="Enter your surname"
+                      type="text"
+                      v-model="userSurName"
+                    ></v-text-field>
+                  </v-form>
+                </v-card-text>
+                <v-card-actions>
+                  <v-row>
+                    <v-col
+                      cols="12"
+                      style="padding-top: 0.5em"
+                      class="text-center"
+                    >
+                      <v-btn
+                        :disabled="!validForm"
+                        @click="sendUpdateRequest"
+                        class="success"
+                      >
+                        Update your profile</v-btn
+                      >
+                    </v-col>
+                  </v-row>
+                </v-card-actions>
+              </v-card>
+            </v-layout>
+          </v-col>
+        </v-row>
       </v-layout>
     </v-row>
     <v-row>
       <v-col cols="12" style="padding-top: 1em">
-        <h1>Your vouchers</h1>
+        <v-row>
+          <v-col cols="12">
+            <v-layout align-center justify-center>
+              <h1
+                class="text-4xl sm:text-5xl md:text-5xl font-bold text-gray-200 mt-3"
+              >
+                <h1 class="text-center">Your Vouchers</h1>
+              </h1>
+            </v-layout>
+          </v-col>
+        </v-row>
         <div v-if="usersVouchers !== undefined && usersVouchers.length > 0">
-          <v-simple-table>
+          <v-simple-table class="m-5">
             <template v-slot:default>
               <thead>
                 <tr>
-                  <th class="text-center">
+                  <th class="text-center" style="color:black;">
                     STATE
                   </th>
-                  <th class="text-center">
+                  <th class="text-center" style="color:black;">
                     VALIDUNTIL
                   </th>
-                  <th class="text-center">
+                  <th class="text-center" style="color:black;">
                     VOUCHERCODE
                   </th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="voucher in usersVouchers" :key="voucher.id">
-                  <td>{{ voucher.state }}</td>
-                  <td>{{ voucher.validUntil }}</td>
-                  <td>{{ voucher.voucherCode }}</td>
+                  <td class="text-center">{{ voucher.state }}</td>
+                  <td class="text-center">{{ voucher.validUntil }}</td>
+                  <td class="text-center">{{ voucher.voucherCode }}</td>
                 </tr>
               </tbody>
             </template>
           </v-simple-table>
         </div>
         <div v-else>
-          <h3>No vouchers found</h3>
+          <v-row>
+            <v-col cols="12">
+              <v-layout align-center justify-center>
+                <h1
+                  class="text-4xl sm:text-5xl md:text-5xl font-bold text-gray-200 mt-3"
+                >
+                  <h1
+                    class="text-center py-3"
+                    style="width:100vw; background: #679b7c;"
+                  >
+                    No Vouchers Found
+                  </h1>
+                </h1>
+              </v-layout>
+            </v-col>
+          </v-row>
         </div>
       </v-col>
     </v-row>

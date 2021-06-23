@@ -4,9 +4,6 @@
       <v-col cols="12">
         <v-row>
           <v-col cols="12" style="padding-top: 1em; padding-bottom: 1em">
-            <v-btn @click.stop="newVoucherDialog = true" color="primary"
-              >New Voucher Request
-            </v-btn>
             <v-dialog v-model="newVoucherDialog" persistent max-width="600px">
               <v-card>
                 <v-card-title>
@@ -80,20 +77,39 @@
             </v-dialog>
           </v-col>
         </v-row>
-        <v-divider />
-        <h1>Available Vouchers</h1>
+        <v-row>
+          <v-col cols="12">
+            <v-layout align-center justify-center>
+              <h1
+                class="text-4xl sm:text-5xl md:text-7xl font-bold text-gray-200 mt-3"
+              >
+                <h1 class="text-center">Available Certifications</h1>
+              </h1>
+            </v-layout>
+          </v-col>
+        </v-row>
+        <v-flex justify-center>
+          <v-btn
+            @click.stop="newVoucherDialog = true"
+            color="primary"
+            class="my-3"
+            >New Voucher Request
+          </v-btn>
+        </v-flex>
         <div v-if="vouchers !== undefined && vouchers.length > 0">
           <v-row>
-            <router-link
-              v-for="voucher in vouchers"
-              :key="voucher.id"
-              :to="'/voucherDetail/' + voucher.id"
-              tag="div"
-            >
-              <v-col>
-                <VoucherItem style="cursor: pointer" :voucher="voucher" />
-              </v-col>
-            </router-link>
+            <v-col>
+              <v-layout d-flex flex-wrap justify-space-around>
+                <router-link
+                  v-for="voucher in vouchers"
+                  :key="voucher.id"
+                  :to="'/voucherDetail/' + voucher.id"
+                  tag="div"
+                >
+                  <VoucherItem style="cursor: pointer" :voucher="voucher" />
+                </router-link>
+              </v-layout>
+            </v-col>
           </v-row>
         </div>
         <div v-else>
@@ -113,7 +129,7 @@ import axios from "axios";
 export default {
   name: "Voucher",
   components: {
-    VoucherItem,
+    VoucherItem
   },
   data() {
     return {
@@ -123,17 +139,17 @@ export default {
       voucherCode: "",
       validUntil: new Date().toISOString().substr(0, 10),
       voucherRules: [
-        (value) => value.length >= 5 || "Minimum 5 characters required",
+        value => value.length >= 5 || "Minimum 5 characters required"
       ],
-      certificationRules: [(value) => value != null || "Item is not selected!"],
-      stateRules: [(value) => value != ""|| "Item is not selected"],
+      certificationRules: [value => value != null || "Item is not selected!"],
+      stateRules: [value => value != "" || "Item is not selected"],
       selectedUser: null,
       selectedCertification: null,
       selectedState: ""
     };
   },
   computed: {
-    ...mapGetters(["vouchers", "listOfUsers", "certifications"]),
+    ...mapGetters(["vouchers", "listOfUsers", "certifications"])
   },
   created() {
     this.$store.dispatch("loadDatasForVouchers");
@@ -158,12 +174,12 @@ export default {
         validUntil: this.validUntil,
         voucherCode: this.voucherCode,
         certificationId: this.selectedCertification,
-        userId: this.selectedUser,
+        userId: this.selectedUser
       });
       this.closeNewVoucherDialog();
       this.$store.dispatch("loadDatasForVouchers");
-    },
-  },
+    }
+  }
 };
 </script>
 
