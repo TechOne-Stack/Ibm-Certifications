@@ -232,7 +232,7 @@ export default {
     ...mapMutations([
       "voucherDetailMutation",
       "voucherDetailUserMutation",
-      "usersMutation",
+      "listOfUsersMutation",
     ]),
     async mountedMock() {
       const voucherData = await axios.get(
@@ -249,7 +249,7 @@ export default {
 
       this.voucherDetailMutation(voucherData.data);
       this.voucherDetailUserMutation(voucherUserData.data);
-      this.usersMutation(users.data._embedded);
+      this.listOfUsersMutation(users.data._embedded);
     },
 
     closeAssignVoucherToUserDialog() {

@@ -141,7 +141,7 @@ export default {
   methods: {
     ...mapMutations([
       "vouchersMutation",
-      "usersMutation",
+      "listOfUsersMutation",
       "certificationsMutation",
     ]),
     async mountedMock() {
@@ -168,7 +168,7 @@ export default {
       this.certificationsMutation(
         certificationData.data._embedded.certifications
       );
-      this.usersMutation(users.data._embedded);
+      this.listOfUsersMutation(users.data._embedded);
       this.vouchersMutation(data._embedded.vouchers);
     },
     closeNewVoucherDialog() {
