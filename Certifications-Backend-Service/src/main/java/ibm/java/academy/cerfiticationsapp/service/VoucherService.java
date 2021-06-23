@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import ibm.java.academy.cerfiticationsapp.model.Certification;
 import ibm.java.academy.cerfiticationsapp.model.User;
 import ibm.java.academy.cerfiticationsapp.model.Voucher;
-import ibm.java.academy.cerfiticationsapp.model.Voucher.State;
 import ibm.java.academy.cerfiticationsapp.payload.request.VoucherRequest;
 import ibm.java.academy.cerfiticationsapp.repository.CertificationJpaRepository;
 import ibm.java.academy.cerfiticationsapp.repository.UserJpaRepository;
