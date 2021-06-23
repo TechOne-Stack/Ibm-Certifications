@@ -1,15 +1,21 @@
 package ibm.java.academy.cerfiticationsapp.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import ibm.java.academy.cerfiticationsapp.model.User;
@@ -17,6 +23,7 @@ import ibm.java.academy.cerfiticationsapp.model.Voucher;
 import ibm.java.academy.cerfiticationsapp.payload.request.UpdateRequest;
 import ibm.java.academy.cerfiticationsapp.payload.request.VoucherUpdateRequest;
 import ibm.java.academy.cerfiticationsapp.payload.response.MessageResponse;
+import ibm.java.academy.cerfiticationsapp.repository.UserJpaRepository;
 import ibm.java.academy.cerfiticationsapp.service.UserService;
 import ibm.java.academy.cerfiticationsapp.service.VoucherService;
 
@@ -30,6 +37,9 @@ public class TestController {
 
 	@Autowired
 	VoucherService voucherService;
+
+	@Autowired
+	UserJpaRepository repo;
 
     @GetMapping("/all")
 	public String allAccess() {
@@ -78,4 +88,20 @@ public class TestController {
 		}
 		return ResponseEntity.ok(new MessageResponse("Voucher updated successfully!"));
 	}
+
+	@GetMapping(path = "/users/except/{id}")
+    @ResponseBody
+	@PreAuthorize("hasRole('ADMIN')")
+    public List<User> getCertificationFromVoucherById(@PathVariable("id") Long id){
+        List<User> users = repo.findAll();
+		users.remove(repo.getById(id));
+		return users;
+    }
+
+	@DeleteMapping("/delete-user/{id}")
+    @ResponseBody
+	@PreAuthorize("hasRole('ADMIN')")
+    public void deleteUser(@PathVariable("id") Long id) {
+        repo.delete(repo.findById(id).get());
+    }
 }

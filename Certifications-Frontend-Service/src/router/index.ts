@@ -49,7 +49,7 @@ const routes: Array<RouteConfig> = [
   },
   {  
     path: "/all-users",
-    name: "AllUsers",
+    name: "Users",
     component: AllUsers
   }
 ];

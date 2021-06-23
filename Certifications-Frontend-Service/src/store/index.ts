@@ -17,7 +17,8 @@ export default new Vuex.Store({
     user: {},
     updateSuccess: false,
     certificateSuccess: false,
-    admin: false
+    admin: false,
+    users: null
   },
   mutations: {
     emailMutation(state, value) {
@@ -54,6 +55,9 @@ export default new Vuex.Store({
     },
     certificateSuccessMutation(state, value){
       state.certificateSuccess = value;
+    },
+    usersMutation(state, value){
+      state.users = value;
     }
   },
   getters: {
@@ -89,6 +93,9 @@ export default new Vuex.Store({
     },
     admin(state: any){
       return localStorage.getItem("admin");
+    },
+    users(state: any){
+      return state.users;
     }
   },
   actions: {
@@ -211,7 +218,20 @@ export default new Vuex.Store({
           alert("something wrong");
         }
       }
-    }
+    },
+
+    async loadUsers({commit}){
+      const user = JSON.parse(localStorage.getItem("user") || '{}');
+      const token = JSON.parse(localStorage.getItem("token") || '{}');
+      console.log(user);
+      const { data } = await axios.get("http://localhost:8080/api/test/users/except/" + user.id, {
+        headers: {
+          Authorization: 'Bearer ' + token 
+        }
+      });
+      commit("usersMutation", data);
+      return data;
+    } 
   },
   modules: {},
 });

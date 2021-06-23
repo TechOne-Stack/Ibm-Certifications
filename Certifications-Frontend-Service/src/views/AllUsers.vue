@@ -1,63 +1,75 @@
 <template>
-  <v-card max-width="500" class="mx-auto">
-    <v-toolbar color="indigo" dark>
-      <v-app-bar-nav-icon></v-app-bar-nav-icon>
-
-      <v-toolbar-title>Inbox</v-toolbar-title>
-
-      <v-spacer></v-spacer>
-
-      <v-btn icon>
-        <v-icon>mdi-magnify</v-icon>
-      </v-btn>
-
-      <v-btn icon>
-        <v-icon>mdi-dots-vertical</v-icon>
-      </v-btn>
-    </v-toolbar>
-    <v-list>
-      <!-- <v-list-item v-for="user in users" :key="user.id">
-        <v-list-item-icon>
-          <v-icon v-if="item.icon" color="pink">
-            mdi-star
-          </v-icon>
-        </v-list-item-icon>
-
-        <v-list-item-content>
-          <v-list-item-title v-text="user.firstname"></v-list-item-title>
-        </v-list-item-content>
-
-        <v-list-item-avatar>
-          <v-img :src="item.avatar"></v-img>
-        </v-list-item-avatar>
-      </v-list-item> -->
-      <p v-for="user in users" :key="user.id" tag="div">{{ user.email }} {{ user.name}} {{ user.surname}}</p>
-    </v-list>
-  </v-card>
+  <v-simple-table>
+    <flash-message class="myCustomClass"></flash-message>
+    <template v-slot:default>
+      <thead>
+        <tr>
+          <th class="text-center">
+            Name
+          </th>
+          <th class="text-center">
+            Surname
+          </th>
+          <th class="text-center">
+            Email
+          </th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="user in users" :key="user.id">
+          <td>{{ user.name }}</td>
+          <td>{{ user.surname }}</td>
+          <td>{{ user.email }}</td>
+          <td><button @click="removeUser(user.id)">Remove User</button></td>
+        </tr>
+      </tbody>
+    </template>
+  </v-simple-table>
 </template>
 
 <script>
+import Vue from "vue";
 import axios from "axios";
+import VueFlashMessage from "vue-flash-message";
+
+Vue.use(VueFlashMessage);
 
 export default {
   name: "All-users",
-  data() {
-    return {
-      users: []
-    };
+  created() {
+    this.$store.dispatch("loadUsers");
   },
-  async mounted() {
-    const token = JSON.parse(localStorage.getItem("token"));
-    const { data } = await axios.get("http://localhost:8080/users", {
-      headers: {
-        Authorization: 'Bearer ' + token 
+  methods: {
+    async removeUser(id) {
+      const token = JSON.parse(localStorage.getItem("token"));
+      try {
+        await axios.delete("http://localhost:8080/api/test/delete-user/" + id, {
+          headers: {
+            Authorization: "Bearer " + token
+          }
+        });
+      } catch (err) {
+        if (err.response) {
+          alert("RESPONSE ERROR - client received an error response");
+        } else if (err.request){
+          alert("REQUEST ERROR - client never received a response");
+        } else {
+          alert("something wrong");
+        }
       }
-    });
-    // for(let i = 0; i < data._embedded.users.lenght; i++){
-
-    // }
-    this.users = data._embedded.users;
-    console.log(this.users);
+      this.$store.dispatch("loadUsers");
+    }
+  },
+  computed: {
+    users: {
+      get() {
+        return this.$store.getters.users;
+      },
+      set(value) {
+        this.$store.commit("usersMutation", value);
+      }
+    }
   }
 };
 </script>

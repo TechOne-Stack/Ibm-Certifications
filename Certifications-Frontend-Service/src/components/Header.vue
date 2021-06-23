@@ -7,7 +7,7 @@
 
     <div v-if="admin" class="adminHeader">
       <router-link to="/all-users" tag="span" class="pointerClass">
-        <h2>IBM@All users</h2>
+        <h2>IBM@Users</h2>
       </router-link>
     </div>
 
