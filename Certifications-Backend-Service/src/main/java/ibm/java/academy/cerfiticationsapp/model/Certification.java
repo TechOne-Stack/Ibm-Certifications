@@ -3,6 +3,7 @@ package ibm.java.academy.cerfiticationsapp.model;
 import java.math.BigDecimal;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -54,7 +55,7 @@ public class Certification extends Auditing<String>{
     @Enumerated(EnumType.STRING)
     private State state;
 
-    @OneToMany(mappedBy = "certification", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "certification", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JsonManagedReference
     private List<Voucher> vouchers;
 
