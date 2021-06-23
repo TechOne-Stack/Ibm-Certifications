@@ -5,7 +5,6 @@ Start docker desktop!
 Go to project directory and press:
 ```
 docker-compose up --build -d
-
 ```
 Download frontend docker image with:
 ```
