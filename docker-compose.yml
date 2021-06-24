@@ -1,14 +1,14 @@
 version: "3"
 services:
     certifications-ibm-frontend:
-        image: 30dot05dot1999/certification-app-frontend:latest
+        image: techonestack/certification-app-frontend:latest
         restart: unless-stopped
         depends_on:
         - certifications-ibm-backend
         ports:
         - "8081:80"
     certifications-ibm-backend:
-        image: 30dot05dot1999/certification-app-backend:latest
+        image: techonestack/certification-app-backend:latest
         restart: unless-stopped
         ports:
         - "8080:8080"
