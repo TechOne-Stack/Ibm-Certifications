@@ -8,8 +8,8 @@ docker-compose up --build -d
 ```
 Download frontend docker image with:
 ```
-docker pull 30dot05dot1999/certification-app-frontend
+docker push techonestack/certification-app-frontend:tagname
 ```
 Download backend docker image with:
 ```
-docker pull 30dot05dot1999/certification-app-backend
+docker push techonestack/certification-app-backend:tagname
