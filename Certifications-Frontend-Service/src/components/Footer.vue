@@ -2,7 +2,7 @@
   <v-footer dark
     >{{ new Date().getFullYear() }} Java Academy
     <v-spacer />
-    TechONE Stack
+    TechOne Stack
   </v-footer>
 </template>
 

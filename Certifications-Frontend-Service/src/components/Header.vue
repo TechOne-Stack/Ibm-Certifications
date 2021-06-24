@@ -5,37 +5,31 @@
     </router-link>
     <v-spacer />
     <router-link to="/certificationsoverview" tag="span" class="pointerClass">
-      <h2>IBM@Certifications</h2>
+      <h2 class="navitem">Certifications</h2>
     </router-link>
     <v-spacer />
 
     <div v-if="admin" class="adminHeader">
       <router-link to="/all-users" tag="span" class="pointerClass">
-        <h2>IBM@Users</h2>
+        <h2 class="navitem">Users</h2>
       </router-link>
     </div>
 
     <router-link to="/voucher" tag="span" class="pointerClass">
-      <h2>IBM@Vouchers</h2>
-    </router-link>
-    <v-spacer />
-
-    <router-link to="/skillsoverview" tag="span" class="pointerClass">
-      <h2>IBM@Skills</h2>
+      <h2 class="navitem">Vouchers</h2>
     </router-link>
     <v-spacer />
 
     <router-link to="/profile" tag="span" class="pointerClass">
-      <span>Profile</span>
+      <span class="navitem">Profile</span>
       <v-icon>mdi-account</v-icon>
     </router-link>
     <v-spacer />
 
-    <span class="pointerClass" @click="logout">
+    <span class="pointerClass navitem" @click="logout">
       <span>Logout</span>
       <v-icon>mdi-logout</v-icon>
     </span>
-    <v-spacer />
   </v-app-bar>
 </template>
 
@@ -65,5 +59,9 @@ export default {
 }
 .adminHeader {
   margin-right: 10%;
+}
+
+.navitem:hover{
+  text-decoration: underline;
 }
 </style>

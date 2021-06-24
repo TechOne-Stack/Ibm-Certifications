@@ -33,12 +33,13 @@
                 </svg>
               </div>
               <v-card-text class="mt-5">
-                <v-form ref="newSkillForm">
+                <v-form ref="newSkillForm" v-model="valid">
                   <v-row>
                     <v-col cols="12">
                       <v-text-field
                         label="Name"
                         v-model="skillName"
+                        :rules="nameRules"
                         prepend-icon="mdi-format-text-variant-outline"
                       ></v-text-field>
                     </v-col>
@@ -47,6 +48,7 @@
                     <v-col cols="12">
                       <v-text-field
                         label="Description"
+                        :rules="descriptionRules"
                         v-model="skillDescription"
                         prepend-icon="mdi-clipboard-text-outline"
                       ></v-text-field>
@@ -63,7 +65,7 @@
                 >
                   <v-btn color="danger">Close</v-btn>
                 </router-link>
-                <v-btn color="success" @click="sendUpdatedSkill" class="mr-3"
+                <v-btn color="success" :disabled="!valid" @click="sendUpdatedSkill" class="mr-3"
                   >Send</v-btn
                 >
               </v-card-actions>
@@ -84,9 +86,12 @@ export default Vue.extend({
   name: "EditSkill",
   data() {
     return {
+      valid: true,
       currentSkillId: 0,
       skillName: "",
-      skillDescription: ""
+      skillDescription: "",
+      nameRules: [v => !!v || "Name is required!"],
+      descriptionRules: [v => !!v || "Description is required!"]
     };
   },
   async created() {

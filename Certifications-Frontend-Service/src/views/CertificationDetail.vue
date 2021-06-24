@@ -11,7 +11,7 @@
                 Certification detail
               </h1>
             </v-layout>
-            <v-card style="border-radius:25px;">
+            <v-card style="border-radius:25px; padding:10px;">
               <div
                 class=" text-white flex items-center absolute py-4 px-4 shadow-xl bg-green-500 left-4 -top-6"
                 style="border-radius:50%"
@@ -32,53 +32,52 @@
                   />
                 </svg>
               </div>
-              <div class="mt-5">
-                
-                  <v-row>
-                    <v-col cols="12" class="flex p-5">
-                      <v-icon>mdi-certificate-outline</v-icon>
-                      <v-card-text
-                        style="font-size: 2rem"
-                        label="Name"              
-                      >{{ currentCertification.name }}</v-card-text>
-                    </v-col>
-                  </v-row>
-                  <v-row>
-                    <v-col cols="12" md="6" xs="12" class="py-0 flex p-5">
-                      <v-icon>mdi-cash-multiple</v-icon>
-                      <v-card-text 
-                        style="font-size: 2rem"
-                        label="Price"
-                      >{{ currentCertification.price }}</v-card-text>
-                    </v-col>
-                    <v-col cols="12" md="6" xs="12" class="py-0">
-                      <v-card-text
-                        style="font-size: 2rem"
-                        label="Currency"
-                      >{{ currentCertification.currency }}</v-card-text>
-                    </v-col>
-                  </v-row>
-                  <v-row>
-                    <v-col cols="12" class="flex p-5">
-                      <v-icon>mdi-web</v-icon>
-                      <v-card-text
-                        style="font-size: 2rem"
-                        label="Url"
-                      >{{ currentCertification.url }}</v-card-text>
-                    </v-col>
-                  </v-row>
-                  <v-row>
-                    <v-col cols="12" style="p-5">
-                      <p>Skills obtained with this certification:</p> 
-                    </v-col>
-                  </v-row>
-                  <v-row class="my-0">
-                    <v-list-item v-for="skill in certificationSkills" :key="skill.name" two-line>
-                      <v-list-item-title>{{ skill.name }}</v-list-item-title>
-                      <v-list-item-subtitle>{{ skill.description }}</v-list-item-subtitle>
-                    </v-list-item>
-                      <v-divider></v-divider>
-                  </v-row>
+              <div class="mt-7">
+                <v-row>
+                  <v-col cols="12" class="flex px-5">
+                    <v-icon>mdi-certificate-outline</v-icon>
+                    <v-card-text style="font-size:1.2rem" label="Name">{{
+                      currentCertification.name
+                    }}</v-card-text>
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col cols="12" class="py-0 flex px-5">
+                    <v-icon>mdi-cash-multiple</v-icon>
+                    <v-card-text style="font-size:1.2rem" label="Price"
+                      >{{ currentCertification.price }}
+                      {{ currentCertification.currency }}</v-card-text
+                    >
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col cols="12" class="flex px-5">
+                    <v-icon>mdi-web</v-icon>
+                    <v-card-text style="font-size:1.2rem" label="Url"
+                      >{{ currentCertification.url }}
+                    </v-card-text>
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col cols="12" style="px-5">
+                    <p class="text-center">
+                      Skills obtained with this certification
+                    </p>
+                  </v-col>
+                </v-row>
+                <v-row class="my-0">
+                  <v-list-item
+                    v-for="skill in certificationSkills"
+                    :key="skill.name"
+                    two-line
+                    style="border: solid black 1px; margin:10px;"
+                  >
+                    <v-list-item-title>{{ skill.name }}</v-list-item-title>
+                    <v-list-item-subtitle>{{
+                      skill.description
+                    }}</v-list-item-subtitle>
+                  </v-list-item>
+                </v-row>
               </div>
               <v-card-actions class="mb-3">
                 <v-spacer />
@@ -90,14 +89,14 @@
                   <v-btn color="danger">Close</v-btn>
                 </router-link>
                 <v-btn
-                    color="success"
-                    class="mr-3"
-                    @click="routeToEditCertification"
-                  >Edit</v-btn>
-                <v-btn 
-                  @click="deleteCertificationDialog = true"
-                  color="danger"
-                >Delete</v-btn>
+                  color="success"
+                  class="mr-3"
+                  @click="routeToEditCertification"
+                  >Edit</v-btn
+                >
+                <v-btn @click="deleteCertificationDialog = true" color="danger"
+                  >Delete</v-btn
+                >
               </v-card-actions>
             </v-card>
           </v-col>
@@ -105,51 +104,43 @@
       </v-flex>
     </v-layout>
     <v-row justify="center">
-    <v-dialog
-      persistent
-      v-model="deleteCertificationDialog"
-      max-width="290"
-    >
-      <v-card>
-        <v-card-title class="text-h5">
-          Delete certification?
-        </v-card-title>
+      <v-dialog persistent v-model="deleteCertificationDialog" max-width="290">
+        <v-card>
+          <v-card-title class="text-h5">
+            Delete certification?
+          </v-card-title>
 
-        <div v-if="hasAffectedVouchers">
-          <v-card-subtitle v-if="hasAffectedVouchers">
-            Vouchers affected:
-          </v-card-subtitle>
+          <div v-if="hasAffectedVouchers">
+            <v-card-subtitle v-if="hasAffectedVouchers">
+              Vouchers affected:
+            </v-card-subtitle>
 
-          <v-list-item 
-            v-for="voucher in certificationVouchers" 
-            :key="voucher.voucherCode"
-          >
-            <v-list-item-title >{{ voucher.voucherCode }}</v-list-item-title>
-          </v-list-item>
-        </div>
+            <v-list-item
+              v-for="voucher in certificationVouchers"
+              :key="voucher.voucherCode"
+            >
+              <v-list-item-title>{{ voucher.voucherCode }}</v-list-item-title>
+            </v-list-item>
+          </div>
 
-        <v-card-actions>
-          <v-spacer></v-spacer>
+          <v-card-actions>
+            <v-spacer></v-spacer>
 
-          <v-btn
-            color="black darken-1"
-            text
-            @click="deleteCertificationDialog = false"
-          >
-            Close
-          </v-btn>
+            <v-btn
+              color="black darken-1"
+              text
+              @click="deleteCertificationDialog = false"
+            >
+              Close
+            </v-btn>
 
-          <v-btn
-            color="red darken-1"
-            text
-            @click="deleteCertification"
-          >
-            Delete
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-  </v-row>
+            <v-btn color="red darken-1" text @click="deleteCertification">
+              Delete
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </v-row>
   </v-container>
 </template>
 
@@ -165,7 +156,7 @@ export default {
       certificationSkills: [],
       certificationVouchers: [],
       deleteCertificationDialog: false,
-      hasAffectedVouchers: false,
+      hasAffectedVouchers: false
     };
   },
   async created() {
@@ -181,7 +172,7 @@ export default {
     ...mapGetters(["certifications"]),
     certificationHasState() {
       return this.currentCertification.state != null;
-    },
+    }
   },
   methods: {
     async deleteCertification() {
@@ -189,11 +180,13 @@ export default {
         return;
       }
       const token = JSON.parse(localStorage.getItem("token"));
-      const url = "http://localhost:8080/delete-certification/" + this.currentCertification.id
+      const url =
+        "http://localhost:8080/delete-certification/" +
+        this.currentCertification.id;
       try {
-        const { data } =  await axios.delete(url, {
+        const { data } = await axios.delete(url, {
           headers: {
-            Authorization: 'Bearer ' + token 
+            Authorization: "Bearer " + token
           }
         });
         this.currentCertification = {};
@@ -204,11 +197,13 @@ export default {
     },
     async fetchSkills() {
       const token = JSON.parse(localStorage.getItem("token"));
-      const url = "http://localhost:8080/certification-skills/" + this.currentCertification.id;
+      const url =
+        "http://localhost:8080/certification-skills/" +
+        this.currentCertification.id;
       try {
         const { data } = await axios.get(url, {
           headers: {
-            Authorization: 'Bearer ' + token 
+            Authorization: "Bearer " + token
           }
         });
         this.certificationSkills = data;
@@ -219,29 +214,33 @@ export default {
 
     async fetchVouchers() {
       const token = JSON.parse(localStorage.getItem("token"));
-      const url = "http://localhost:8080/certification-vouchers/" + this.currentCertification.id;
+      const url =
+        "http://localhost:8080/certification-vouchers/" +
+        this.currentCertification.id;
       try {
         const { data } = await axios.get(url, {
           headers: {
-            Authorization: 'Bearer ' + token 
+            Authorization: "Bearer " + token
           }
         });
         this.certificationVouchers = data;
-        this.hasAffectedVouchers = this.certificationVouchers != null && this.certificationVouchers.length > 0;
+        this.hasAffectedVouchers =
+          this.certificationVouchers != null &&
+          this.certificationVouchers.length > 0;
       } catch (error) {
         console.log(error);
       }
     },
     routeToEditCertification() {
-      this.$router.push("/edit-certificate-form/" + this.currentCertification.id);
+      this.$router.push(
+        "/edit-certificate-form/" + this.currentCertification.id
+      );
     },
     routeToVoucherDetail() {
       this.$router.push("/voucherDetail/" + this.currentCertification.id);
     }
-  },
+  }
 };
 </script>
 
-<style>
-
-</style>
+<style></style>
